@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/navid/multi-ibvs-platform/TestClass.cpp
+iostream
+-
+vector
+-
+TestClass.h
+/home/navid/multi-ibvs-platform/TestClass.h
+
+/home/navid/multi-ibvs-platform/TestClass.h
+
