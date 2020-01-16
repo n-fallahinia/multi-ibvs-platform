@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/navid/multi-ibvs-platform/build/include/TestClass",
+  "command": "/usr/bin/g++-7   -I/home/navid/multi-ibvs-platform/include/TestClass/src  -g   -o CMakeFiles/TestClass.dir/src/TestClass.cpp.o -c /home/navid/multi-ibvs-platform/include/TestClass/src/TestClass.cpp",
+  "file": "/home/navid/multi-ibvs-platform/include/TestClass/src/TestClass.cpp"
+},
+{
+  "directory": "/home/navid/multi-ibvs-platform/build/src",
+  "command": "/usr/bin/g++-7   -I/home/navid/multi-ibvs-platform/include/TestClass/src  -g   -o CMakeFiles/ibvs.dir/main.cpp.o -c /home/navid/multi-ibvs-platform/src/main.cpp",
+  "file": "/home/navid/multi-ibvs-platform/src/main.cpp"
+}
+]
