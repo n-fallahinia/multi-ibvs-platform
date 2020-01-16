@@ -1,1 +1,0 @@
-/usr/bin/g++-7  -g  -rdynamic CMakeFiles/ibvs.dir/src/main.cpp.o  -o ibvs lib/TestClass/libTestClass.a 
