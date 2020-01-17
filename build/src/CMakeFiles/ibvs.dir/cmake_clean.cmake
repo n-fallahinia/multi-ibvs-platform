@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
+  "../../bin/ibvs"
+  "../../bin/ibvs.pdb"
   "CMakeFiles/ibvs.dir/main.cpp.o"
-  "ibvs"
-  "ibvs.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

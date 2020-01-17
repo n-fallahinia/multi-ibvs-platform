@@ -1,1 +1,1 @@
-/usr/bin/g++-7  -g  -rdynamic CMakeFiles/ibvs.dir/main.cpp.o  -o ibvs ../include/TestClass/libTestClass.a 
+/usr/bin/g++-7   -std=c++11 -O3 -g  -rdynamic CMakeFiles/ibvs.dir/main.cpp.o  -o ../../bin/ibvs ../../lib/libTestClass.a 

@@ -1,2 +1,2 @@
-/usr/bin/ar qc libTestClass.a  CMakeFiles/TestClass.dir/src/TestClass.cpp.o
-/usr/bin/ranlib libTestClass.a
+/usr/bin/ar qc ../../../lib/libTestClass.a  CMakeFiles/TestClass.dir/src/TestClass.cpp.o
+/usr/bin/ranlib ../../../lib/libTestClass.a
