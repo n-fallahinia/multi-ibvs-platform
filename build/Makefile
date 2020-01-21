@@ -110,32 +110,6 @@ depend:
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named TestClass
-
-# Build rule for target.
-TestClass: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 TestClass
-.PHONY : TestClass
-
-# fast build rule for target.
-TestClass/fast:
-	$(MAKE) -f include/TestClass/CMakeFiles/TestClass.dir/build.make include/TestClass/CMakeFiles/TestClass.dir/build
-.PHONY : TestClass/fast
-
-#=============================================================================
-# Target rules for targets named ibvs
-
-# Build rule for target.
-ibvs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 ibvs
-.PHONY : ibvs
-
-# fast build rule for target.
-ibvs/fast:
-	$(MAKE) -f src/CMakeFiles/ibvs.dir/build.make src/CMakeFiles/ibvs.dir/build
-.PHONY : ibvs/fast
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -144,8 +118,6 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... TestClass"
-	@echo "... ibvs"
 .PHONY : help
 
 

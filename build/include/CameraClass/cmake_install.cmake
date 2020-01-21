@@ -1,4 +1,4 @@
-# Install script for directory: /home/navid/multi-ibvs-platform/include/TestClass
+# Install script for directory: /home/navid/multi-ibvs-platform/include/CameraClass
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

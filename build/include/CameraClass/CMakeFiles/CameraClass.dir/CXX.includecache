@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/navid/multi-ibvs-platform/include/CameraClass/src/Camera.cpp
+iostream
+-
+vector
+-
+string.h
+-
+unistd.h
+-
+stdio.h
+-
+stdlib.h
+-
+sys/time.h
+-
+Camera.h
+/home/navid/multi-ibvs-platform/include/CameraClass/src/Camera.h
+
+/home/navid/multi-ibvs-platform/include/CameraClass/src/Camera.h
+iostream
+-
+vector
+-
+visp3/core/vpImage.h
+-
+visp3/gui/vpDisplayX.h
+-
+visp3/io/vpImageIo.h
+-
+visp3/sensor/vpFlyCaptureGrabber.h
+-
+

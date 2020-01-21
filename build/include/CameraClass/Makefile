@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/navid/multi-ibvs-platform/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/navid/multi-ibvs-platform/build/CMakeFiles /home/navid/multi-ibvs-platform/build/include/TestClass/CMakeFiles/progress.marks
-	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f CMakeFiles/Makefile2 include/TestClass/all
+	cd /home/navid/multi-ibvs-platform/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/navid/multi-ibvs-platform/build/CMakeFiles /home/navid/multi-ibvs-platform/build/include/CameraClass/CMakeFiles/progress.marks
+	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f CMakeFiles/Makefile2 include/CameraClass/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/navid/multi-ibvs-platform/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f CMakeFiles/Makefile2 include/TestClass/clean
+	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f CMakeFiles/Makefile2 include/CameraClass/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,12 +97,12 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f CMakeFiles/Makefile2 include/TestClass/preinstall
+	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f CMakeFiles/Makefile2 include/CameraClass/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f CMakeFiles/Makefile2 include/TestClass/preinstall
+	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f CMakeFiles/Makefile2 include/CameraClass/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
@@ -111,46 +111,46 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-include/TestClass/CMakeFiles/TestClass.dir/rule:
-	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f CMakeFiles/Makefile2 include/TestClass/CMakeFiles/TestClass.dir/rule
-.PHONY : include/TestClass/CMakeFiles/TestClass.dir/rule
+include/CameraClass/CMakeFiles/CameraClass.dir/rule:
+	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f CMakeFiles/Makefile2 include/CameraClass/CMakeFiles/CameraClass.dir/rule
+.PHONY : include/CameraClass/CMakeFiles/CameraClass.dir/rule
 
 # Convenience name for target.
-TestClass: include/TestClass/CMakeFiles/TestClass.dir/rule
+CameraClass: include/CameraClass/CMakeFiles/CameraClass.dir/rule
 
-.PHONY : TestClass
+.PHONY : CameraClass
 
 # fast build rule for target.
-TestClass/fast:
-	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f include/TestClass/CMakeFiles/TestClass.dir/build.make include/TestClass/CMakeFiles/TestClass.dir/build
-.PHONY : TestClass/fast
+CameraClass/fast:
+	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f include/CameraClass/CMakeFiles/CameraClass.dir/build.make include/CameraClass/CMakeFiles/CameraClass.dir/build
+.PHONY : CameraClass/fast
 
-src/TestClass.o: src/TestClass.cpp.o
+src/Camera.o: src/Camera.cpp.o
 
-.PHONY : src/TestClass.o
+.PHONY : src/Camera.o
 
 # target to build an object file
-src/TestClass.cpp.o:
-	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f include/TestClass/CMakeFiles/TestClass.dir/build.make include/TestClass/CMakeFiles/TestClass.dir/src/TestClass.cpp.o
-.PHONY : src/TestClass.cpp.o
+src/Camera.cpp.o:
+	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f include/CameraClass/CMakeFiles/CameraClass.dir/build.make include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o
+.PHONY : src/Camera.cpp.o
 
-src/TestClass.i: src/TestClass.cpp.i
+src/Camera.i: src/Camera.cpp.i
 
-.PHONY : src/TestClass.i
+.PHONY : src/Camera.i
 
 # target to preprocess a source file
-src/TestClass.cpp.i:
-	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f include/TestClass/CMakeFiles/TestClass.dir/build.make include/TestClass/CMakeFiles/TestClass.dir/src/TestClass.cpp.i
-.PHONY : src/TestClass.cpp.i
+src/Camera.cpp.i:
+	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f include/CameraClass/CMakeFiles/CameraClass.dir/build.make include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.i
+.PHONY : src/Camera.cpp.i
 
-src/TestClass.s: src/TestClass.cpp.s
+src/Camera.s: src/Camera.cpp.s
 
-.PHONY : src/TestClass.s
+.PHONY : src/Camera.s
 
 # target to generate assembly for a file
-src/TestClass.cpp.s:
-	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f include/TestClass/CMakeFiles/TestClass.dir/build.make include/TestClass/CMakeFiles/TestClass.dir/src/TestClass.cpp.s
-.PHONY : src/TestClass.cpp.s
+src/Camera.cpp.s:
+	cd /home/navid/multi-ibvs-platform/build && $(MAKE) -f include/CameraClass/CMakeFiles/CameraClass.dir/build.make include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.s
+.PHONY : src/Camera.cpp.s
 
 # Help Target
 help:
@@ -159,11 +159,11 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... TestClass"
+	@echo "... CameraClass"
 	@echo "... edit_cache"
-	@echo "... src/TestClass.o"
-	@echo "... src/TestClass.i"
-	@echo "... src/TestClass.s"
+	@echo "... src/Camera.o"
+	@echo "... src/Camera.i"
+	@echo "... src/Camera.s"
 .PHONY : help
 
 

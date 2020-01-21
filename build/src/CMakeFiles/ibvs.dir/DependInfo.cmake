@@ -10,12 +10,18 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "../include/TestClass/src"
+  "../include/CameraClass/src"
+  "/usr/local/include/opencv"
+  "/usr/include/eigen3"
+  "/usr/include/libxml2"
+  "/usr/include/libusb-1.0"
+  "/usr/include/flycapture"
+  "/usr/include/Aria"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/navid/multi-ibvs-platform/build/include/TestClass/CMakeFiles/TestClass.dir/DependInfo.cmake"
+  "/home/navid/multi-ibvs-platform/build/include/CameraClass/CMakeFiles/CameraClass.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

@@ -2,14 +2,15 @@
 #include <vector> 
 // #include <opencv2/opencv.hpp>
 #include "TestClass.h"
+#include "Camera.h"
 
 using namespace std;
 
 
-int main(int argc, char const *argv[])
+int main()
 {   
-    TestClass test_m;
-    int input = 10;
-    test_m.text_print(input);
+    // TestClass test_m;
+    Camera camera_m;
+
     return 0;
 }
