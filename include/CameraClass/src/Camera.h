@@ -8,16 +8,20 @@
 #include <visp3/gui/vpDisplayX.h>
 #include <visp3/io/vpImageIo.h>
 #include <visp3/sensor/vpFlyCaptureGrabber.h>
+// include VISP lib
+
+// #include <opencv2/opencv.hpp>
+// include Opencv
 
 class Camera
 {   
     public:
-        vector<vpImage<vpRGBa>> image_color_grabbed; // Create a color level image container
+        // vector<vpImage<vpRGBa>> image_color_grabbed; // Create a color level image container
         vpImage<unsigned char> image_gray_grabbed; // Create a gray level image container
         
         Camera();
         ~Camera();
-        void Init_Camera();
+        // void Init_Camera();
 
     private:
         vpFlyCaptureGrabber     cam_grabber; // Create a grabber based on FlyCapture SDK third party lib
@@ -25,12 +29,12 @@ class Camera
         unsigned int            numCameras;
 
 
-        float shutter_ms;
-        float shutter_new;
-        float brightness;
-        float brightness_new;
-        float gain;
-        float gain_new;
+    //     float shutter_ms;
+    //     float shutter_new;
+    //     float brightness;
+    //     float brightness_new;
+    //     float gain;
+    //     float gain_new;
 
 };
 

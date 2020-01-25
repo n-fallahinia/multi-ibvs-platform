@@ -12,8 +12,8 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 find_package(VISP REQUIRED)
 find_package(OpenCV REQUIRED)
 
-# message(STATUS "    include path: ${VISP_INCLUDE_DIRS}")
-# message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
+message(STATUS "    include path: ${VISP_INCLUDE_DIRS}")
+message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
 
 include_directories(${VISP_INCLUDE_DIRS})
 

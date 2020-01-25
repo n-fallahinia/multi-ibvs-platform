@@ -11,6 +11,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.15.0-rc3/CMakeCCompiler.cmake"
   "CMakeFiles/3.15.0-rc3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.15.0-rc3/CMakeSystem.cmake"
+  "../include/CameraClass/CMakeLists.txt"
+  "../src/CMakeLists.txt"
   "/usr/local/lib/cmake/visp/VISPConfig-version.cmake"
   "/usr/local/lib/cmake/visp/VISPConfig.cmake"
   "/usr/local/lib/cmake/visp/VISPModules-release.cmake"
@@ -51,8 +53,12 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "include/CameraClass/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "src/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "include/CameraClass/CMakeFiles/CameraClass.dir/DependInfo.cmake"
+  "src/CMakeFiles/ibvs.dir/DependInfo.cmake"
   )

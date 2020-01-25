@@ -15,30 +15,19 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-// #include <visp3/core/vpImage.h>
-// #include <visp3/gui/vpDisplayX.h>
-// #include <visp3/io/vpImageIo.h>
-// #include <visp3/sensor/vpFlyCaptureGrabber.h>
-// include VISP lib
-
-// #include <opencv2/opencv.hpp>
-// include Opencv
-
 #include "Camera.h"
 // include the camera class header file
 
 using namespace std;
-using namespace vpDisplay;
-using namespace vpFlyCaptureGrabber;
-using namespace cv2;
+// using namespace cv2;
 
 Camera::Camera()
 // camera constructor
 {
     // camera is still off
     cout << "Camera class initiated" << endl;
-
-
+    numCameras = vpFlyCaptureGrabber::getNumCameras(); // only designed for 2 or 1 cameras
+    cout << "Number of cameras detected: " << numCameras << endl;
 }
 
 Camera::~Camera()
@@ -47,29 +36,29 @@ Camera::~Camera()
     // close();
 }
 
-void Camera::Init_Camera()
-{
-    #ifdef VISP_HAVE_FLYCAPTURE
-    // initializing camera setiing
-    // get camera features and modes!! 
-    numCameras = getNumCameras(); // only designed for 2 or 1 cameras
-    if (numCameras>2)
-    {
-        cout << numCameras << " cameras have been detected, Must be less than 3!" << endl;
-        return;
-;
-    }
-    cout << "Camera connection established.." << endl;
-    cout << "Number of cameras detected: " << numCameras << endl;
-    // cameras connection are ready
-    for(cam=0; cam < numCameras; cam++) 
-    {
-        cam_grabber[cam].setCameraIndex(cam); // Default camera is the first on the bus
-        cam_grabber.getCameraInfo(cout);
-    }
-    #else
-        cout:<< "Flycapture SDK is not installed!! closing the software ...." << endl;
-        return -1;
-        // call the deconstructor
-    #endif
-}
+// void Camera::Init_Camera()
+// {
+//     #ifdef VISP_HAVE_FLYCAPTURE
+//     // initializing camera setiing
+//     // get camera features and modes!! 
+//     numCameras = getNumCameras(); // only designed for 2 or 1 cameras
+//     if (numCameras>2)
+//     {
+//         cout << numCameras << " cameras have been detected, Must be less than 3!" << endl;
+//         return;
+// ;
+//     }
+//     cout << "Camera connection established.." << endl;
+//     cout << "Number of cameras detected: " << numCameras << endl;
+//     // cameras connection are ready
+//     for(cam=0; cam < numCameras; cam++) 
+//     {
+//         cam_grabber[cam].setCameraIndex(cam); // Default camera is the first on the bus
+//         cam_grabber.getCameraInfo(cout);
+//     }
+//     #else
+//         cout:<< "Flycapture SDK is not installed!! closing the software ...." << endl;
+//         return -1;
+//         // call the deconstructor
+//     #endif
+// }

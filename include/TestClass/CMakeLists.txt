@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
-project(TestClass)
+project(Test)
 
-add_library(TestClass 
+add_library(Test
             src/TestClass.cpp
             src/TestClass.h)
 
-target_include_directories(TestClass PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src") 
+target_include_directories(Test PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src") 

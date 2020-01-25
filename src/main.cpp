@@ -1,7 +1,7 @@
 #include <iostream> 
 #include <vector> 
 // #include <opencv2/opencv.hpp>
-#include "TestClass.h"
+// #include "TestClass.h"
 #include "Camera.h"
 
 using namespace std;
