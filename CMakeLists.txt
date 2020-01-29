@@ -16,6 +16,7 @@ message(STATUS "    include path: ${VISP_INCLUDE_DIRS}")
 message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
 
 include_directories(${VISP_INCLUDE_DIRS})
+include_directories("/usr/include/flycapture")
 
 # set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 # add_subdirectory(include/TestClass)

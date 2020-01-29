@@ -11,6 +11,7 @@ int main()
 {   
     // TestClass test_m;
     Camera camera_m;
+    camera_m.initCamera();
 
     return 0;
 }

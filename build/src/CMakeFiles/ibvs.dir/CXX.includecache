@@ -6,3 +6,31 @@
 
 #IncludeRegexTransform: 
 
+/home/navid/multi-ibvs-platform/src/main.cpp
+iostream
+-
+vector
+-
+Camera.h
+/home/navid/multi-ibvs-platform/src/Camera.h
+
+/usr/include/flycapture/Camera.h
+CameraBase.h
+/usr/include/flycapture/CameraBase.h
+
+/usr/include/flycapture/CameraBase.h
+FlyCapture2Platform.h
+/usr/include/flycapture/FlyCapture2Platform.h
+FlyCapture2Defs.h
+/usr/include/flycapture/FlyCapture2Defs.h
+
+/usr/include/flycapture/FlyCapture2Defs.h
+memory.h
+-
+
+/usr/include/flycapture/FlyCapture2Platform.h
+cstdint
+-
+cstdint
+-
+
