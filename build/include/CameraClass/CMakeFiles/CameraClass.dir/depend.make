@@ -3,4 +3,15 @@
 
 include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o: ../include/CameraClass/src/Camera.cpp
 include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o: ../include/CameraClass/src/Camera.h
+include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o: /usr/include/flycapture/BusManager.h
+include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o: /usr/include/flycapture/CameraBase.h
+include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o: /usr/include/flycapture/Error.h
+include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o: /usr/include/flycapture/FlyCapture2.h
+include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o: /usr/include/flycapture/FlyCapture2Defs.h
+include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o: /usr/include/flycapture/FlyCapture2Platform.h
+include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o: /usr/include/flycapture/GigECamera.h
+include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o: /usr/include/flycapture/Image.h
+include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o: /usr/include/flycapture/ImageStatistics.h
+include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o: /usr/include/flycapture/TopologyNode.h
+include/CameraClass/CMakeFiles/CameraClass.dir/src/Camera.cpp.o: /usr/include/flycapture/Utilities.h
 

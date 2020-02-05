@@ -9,14 +9,14 @@
 #include <visp3/io/vpImageIo.h>
 #include <visp3/sensor/vpFlyCaptureGrabber.h>
 // include VISP lib
-
+#include <FlyCapture2.h>
+// include flycapture lib
 #include <opencv2/highgui.hpp>
 // #include <opencv2/calib3d.hpp>
 // #include <opencv2/aruco/charuco.hpp>
 // #include <opencv2/imgproc.hpp>
 // include Opencv
-
-static std::vector<vpFlyCaptureGrabber>  cam_grabber; // Create a grabber based on FlyCapture SDK third party lib
+static std::vector<vpFlyCaptureGrabber>  cam_grabber(2); // Create a grabber based on FlyCapture SDK third party lib
 
 class Camera
 {   
@@ -28,15 +28,27 @@ class Camera
         Camera();
         ~Camera();
         void initCamera();
-        void setImageParameters(float *, float *, float *);
-
+        void setAllParameters(float, float, float, float);
+        void setManual2Auto();
+        void setBrightness(float);
+        void setExposure(float);
+        void setGain(float);
+        void setShutter(float);
+        void getParameters(float *, float *, float *, float *);
+  
     private:
-        unsigned int                    cam;
-        float                           shutter_ms;
+        std::vector<float>              cam_parameters;
+
+        int                             cam_idx;
+        bool                            auto_flag;
+        float                           shutter;
         float                           brightness;
         float                           gain;
-        bool                            manual_flag;
-
+        float                           exposure;
+        float                           shutter_new;
+        float                           brightness_new;
+        float                           gain_new;
+        float                           exposure_new;
 };
 
 #endif //CAMERA_H_

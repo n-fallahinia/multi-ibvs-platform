@@ -5,7 +5,7 @@
 # by Navid Fallahinia
 # BioRobotics Lab
 ############################################################*/
-#include <iostream>
+#include<iostream>
 #include <vector> 
 
 #include <string.h>
@@ -21,10 +21,12 @@ using namespace std;
 Camera::Camera()
 {// camera constructor
     // camera is still off 
-    vpFlyCaptureGrabber * cam1 = new vpFlyCaptureGrabber;
-    cam_grabber.push_back(*cam1);
+    auto_flag = true; //starts with auto setting at initilizing
+    brightness = 16;  // initial values for the cam parameters
+    gain = 3;
+    exposure= 5; 
+    shutter = 15;
     cout << "Camera class initiated" << endl;
-
 }
 
 Camera::~Camera()
@@ -43,11 +45,15 @@ void Camera::initCamera()
     }
     cout << "Camera connection established..." << endl;
     cout << "Number of cameras detected: " << numCameras << endl; // number of camera printed
-    // cameras connection are ready
-    for(cam=0; cam < numCameras; cam++) 
+    // cameras connection are ready 
+    for(cam_idx=0; cam_idx < numCameras; cam_idx++) 
     {
-        cam_grabber[cam].setCameraIndex(cam); // Default camera is the first on the bus
-        cam_grabber[cam].getCameraInfo(cout); // printing camera info
+        cam_grabber[cam_idx].setCameraIndex(cam_idx); // Default camera is the first on the bus
+        cam_grabber[cam_idx].getCameraInfo(cout); // printing camera info
+        setAllParameters(brightness,exposure, gain, shutter); // set the image settings 
+        // ##################################################################################
+        // ??????????????????????? NEXT to be done is framemode and video mode ??????????????
+        // ##################################################################################
     }
     #else
         cout:<< "Flycapture SDK is not installed!! closing the software ...." << endl;
@@ -56,10 +62,56 @@ void Camera::initCamera()
     #endif
 }
 
-// void Camera::setImageParameters(float *shutter_ms, float *brightness, float *gain, vector<vpFlyCaptureGrabber> *cam_grabber)
-// {// set image parameters manually or trun the automated settings 
-    
-//     shutter_ms = .setShutter(false, shutter_new); // Turn manual shutter on 
-//     cout << "Shutter manual: " << shutter_ms << " ms" << endl;
+void Camera::setAllParameters(float brightness, float exposure, float gain, float shutter)
+{// set all the image parameters 
+    if (!auto_flag){
+        // set the parametrs manually
+        cout << "Camera #"<<cam_idx<<" is set to automatic settings\n";
+        setBrightness(brightness); 
+        setExposure(exposure); 
+        setGain(gain); 
+        setShutter(shutter);
+    }
+    else // go to the auto setting
+    {
+        cout << "Camera #"<<cam_idx<<" is set to manual settings\n";
+        setManual2Auto(); // set the parameters based on auto settings
+    }
+}
 
-// }
+void Camera::setManual2Auto()
+{   
+    auto_flag = true;
+    gain_new = cam_grabber[cam_idx].setGain(auto_flag); // Turn auto gain on
+    cout << "\tGain auto  : " << gain_new << "\n";
+    shutter_new = cam_grabber[cam_idx].setShutter(auto_flag); // Turn auto shutter on
+    cout << "\tShutter auto  : " << shutter_new << "\n";
+    brightness_new = cam_grabber[cam_idx].setBrightness(auto_flag); // Turn auto brightness on
+    cout << "\tBrightness auto  : " << brightness_new << "\n";
+    exposure_new = cam_grabber[cam_idx].setExposure(auto_flag, auto_flag); // Turn auto exposures on
+    cout << "\tExposure auto  : " << exposure_new << endl;
+}
+
+void Camera::setBrightness (float brightness)
+{
+    brightness_new = cam_grabber[cam_idx].setBrightness(auto_flag, brightness); // Turn manual brightness on
+    cout << "Brightness manual: " << brightness_new << " %" << endl;
+}
+
+void Camera::setExposure(float exposure)
+{
+    exposure_new = cam_grabber[cam_idx].setExposure(auto_flag, exposure); // Turn manual exposure on 
+    cout << "Exposure manual: " << exposure_new << " %" << endl;
+}
+
+void Camera::setGain(float gain)
+{
+    gain_new = cam_grabber[cam_idx].setGain(auto_flag, gain); // Turn manual brightness on to 2%
+    cout << "Gain manual: " << gain_new << " %" << endl;
+}
+
+void Camera::setShutter(float shutter)
+{
+    shutter_new = cam_grabber[cam_idx].setGain(auto_flag, shutter); // Turn manual brightness on to 2%
+    cout << "Shutter manual: " << shutter_new << " %" << endl;
+}

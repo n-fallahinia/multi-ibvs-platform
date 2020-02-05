@@ -7,6 +7,7 @@ add_library(CameraClass
 
 target_link_libraries(CameraClass 
                         ${VISP_LIBRARIES} 
-                        ${OpenCV_LIBS})
-                        
+                        ${OpenCV_LIBS}
+                        ${FLYCAPTURE_INCLUDE_DIRS})
+                    
 target_include_directories(CameraClass PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src") 
