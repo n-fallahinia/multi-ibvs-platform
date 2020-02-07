@@ -115,3 +115,42 @@ void Camera::setShutter(float shutter)
     shutter_new = cam_grabber[cam_idx].setGain(auto_flag, shutter); // Turn manual brightness on to 2%
     cout << "Shutter manual: " << shutter_new << " %" << endl;
 }
+
+bool Camera::setVideoMode(int mode_value, unsigned int w, unsigned int h)
+{
+    try{
+        switch( mode_value )
+        {
+            default:
+            case FORMAT_MONO8:
+                // PIXEL_FORMAT_MONO8 mode
+                cam_grabber[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_7, 
+                                                            FlyCapture2::PIXEL_FORMAT_MONO8, w, h);
+                break;
+            case FORMAT_RAW8:
+                // PIXEL_FORMAT_RAW8 mode
+                cam_grabber[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_7, 
+                                                            FlyCapture2::PIXEL_FORMAT_RAW8, w, h);
+                break;
+            case FORMAT_RGB8:
+                // PIXEL_FORMAT_RGB8 mode
+                cam_grabber[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_7, 
+                                                            FlyCapture2::PIXEL_FORMAT_RGB8, w, h);
+                break;
+            case FORMAT_MONO12:
+                // PIXEL_FORMAT_MONO12 mode
+                cam_grabber[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_7, 
+                                                            FlyCapture2::PIXEL_FORMAT_MONO12, w, h);
+                break;
+            case FORMAT_RAW12:
+                // PIXEL_FORMAT_RAW12 mode
+                cam_grabber[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_7, 
+                                                            FlyCapture2::PIXEL_FORMAT_RAW12, w, h);
+                break;
+            
+            return (true);
+        }
+        // If settings are not available just catch execption to
+    } catch (...) {cout << "Seleced video mode is not supported" <<endl;}    
+    // continue with default settings
+}

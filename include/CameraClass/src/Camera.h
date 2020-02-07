@@ -16,6 +16,13 @@
 // #include <opencv2/aruco/charuco.hpp>
 // #include <opencv2/imgproc.hpp>
 // include Opencv
+
+#define FORMAT_MONO8  1
+#define FORMAT_RAW8   2
+#define FORMAT_RGB8   3
+#define FORMAT_MONO12 4
+#define FORMAT_RAW12  5
+
 static std::vector<vpFlyCaptureGrabber>  cam_grabber(2); // Create a grabber based on FlyCapture SDK third party lib
 
 class Camera
@@ -34,6 +41,7 @@ class Camera
         void setExposure(float);
         void setGain(float);
         void setShutter(float);
+        bool setVideoMode(int, unsigned int, unsigned int);
         void getParameters(float *, float *, float *, float *);
   
     private:
