@@ -17,11 +17,17 @@
 // #include <opencv2/imgproc.hpp>
 // include Opencv
 
-#define FORMAT_MONO8  1
+// Define the video modes
+#define FORMAT_MONO8  1 // probably the default case
 #define FORMAT_RAW8   2
 #define FORMAT_RGB8   3
 #define FORMAT_MONO12 4
 #define FORMAT_RAW12  5
+
+// Define the frame rate speed
+#define FORMAT_15   1 
+#define FORMAT_30   2
+#define FORMAT_60   3 // probably the default case
 
 static std::vector<vpFlyCaptureGrabber>  cam_grabber(2); // Create a grabber based on FlyCapture SDK third party lib
 
@@ -34,14 +40,15 @@ class Camera
 
         Camera();
         ~Camera();
-        void initCamera();
-        void setAllParameters(float, float, float, float);
-        void setManual2Auto();
+        bool initCamera();
+        bool setAllParameters(float&, float&, float&, float&);
+        bool setManual2Auto();
         void setBrightness(float);
         void setExposure(float);
         void setGain(float);
         void setShutter(float);
-        bool setVideoMode(int, unsigned int, unsigned int);
+        bool setVideoMode(int, unsigned int&, unsigned int&);
+        bool setFrameRate(float &);
         void getParameters(float *, float *, float *, float *);
   
     private:
@@ -57,6 +64,10 @@ class Camera
         float                           brightness_new;
         float                           gain_new;
         float                           exposure_new;
+        float                           frame_rate;
+        int                             mode_value;
+        unsigned int                    w;
+        unsigned int                    h;
 };
 
 #endif //CAMERA_H_
