@@ -1,3 +1,0 @@
-/home/navid/multi-ibvs-platform/src/build/CMakeFiles/rebuild_cache.dir
-/home/navid/multi-ibvs-platform/src/build/CMakeFiles/ibvs.dir
-/home/navid/multi-ibvs-platform/src/build/CMakeFiles/edit_cache.dir

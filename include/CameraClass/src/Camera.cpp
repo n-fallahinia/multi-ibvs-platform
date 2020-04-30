@@ -1,94 +1,132 @@
-/* ##########################################################
-# Camera Class for handeling the PointGrey cameras attached 
-# to each of the robots. 
-# 
-# by Navid Fallahinia
-# BioRobotics Lab
-############################################################*/
-#include<iostream>
-#include <vector> 
+/* =================================================================================
+    Camera Class for handeling the PointGrey cameras attached to each of the robots. 
+    This class is designed to be used up to two cameras but can be chnaged to be
+    used for any number of cameras simultaneously. This class is an inference from 
+    VISP 1.3 which is a wrapper class from flycapture 2.0, That's why both 
+    flycapture and Visp are included. Grabbed images are a vector of vpImage object. 
+    Conversion to cv.mat object is impelemented in the image class. 
 
-#include <string.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/time.h>
+    UNIVERSITY OF UTAH
+    BIOROBOTICS LAB
+    Navid Fallahinia
+    12/08/2019
+=================================================================================*/ 
 
 #include "Camera.h"
-// include the camera class header file
+
 using namespace std;
 
-Camera::Camera()
-{// camera constructor
-    // camera is still off 
-    auto_flag = true; //starts with auto setting at initilizing
-    brightness = 16;  // initial values for the cam parameters
-    gain = 10;
-    exposure= 0.85; 
-    shutter = 25;
-    mode_value = 3;
-    w = 680; h = 1024;
-    frame_rate = 30;
+// camera default constructor
+Camera::Camera(){}
+
+// camera constructor with params argument
+Camera::Camera(CamParams &camparams) 
+: _auto_flag(camparams.auto_flag), _rgb_flag(camparams.rgb_flag), _brightness(camparams.brightness), _gain(camparams.gain), _exposure(camparams.exposure),
+    _shutter(camparams.shutter), _wigth(camparams.width), _hight(camparams.hight), _frame_rate(camparams.framerate), _videomode(camparams.videomode)
+{
     cout << "Camera class initiated" << endl;
+    #ifdef VISP_HAVE_FLYCAPTURE
+        _numCameras =  vpFlyCaptureGrabber::getNumCameras(); // only designed for 2 or 1 cameras
+        cout << "Number of cameras detected: " << _numCameras << endl; // number of camera printed
+        cam_grabber = new vector<vpFlyCaptureGrabber> (_numCameras);
+        if (_rgb_flag)
+        {
+            image_RGB_grabbed = new vector<vpImage<vpRGBa>> (_numCameras);
+        }
+        else
+        {
+            image_gray_grabbed = new vector<vpImage<unsigned char>> (_numCameras);
+
+        }
+    #else // if Flycapture is not installed terminate the class
+        cout<< "Flycapture SDK is not installed!! closing the software ...." << endl;
+        _Exit();
+    #endif
 }
 
+// camera class destructor
 Camera::~Camera()
-{// camera class deconstructor
+{
+    delete cam_grabber;
+    delete image_RGB_grabbed;
+    delete image_gray_grabbed;
 }
 
 bool Camera::initCamera()
 {// initializing camera setiing
-    #ifdef VISP_HAVE_FLYCAPTURE
-    // get camera features and modes!! 
-    numCameras =  vpFlyCaptureGrabber::getNumCameras(); // only designed for 2 or 1 cameras
-    if (numCameras>2)
+    if ( _numCameras == 0 )
     {
-        cout << numCameras << " cameras have been detected, Must be less than 3!" << endl;
-        return (false);
+        cout<< "No camera found" << endl;
+        return(false);
     }
     cout << "Camera connection established..." << endl;
-    cout << "Number of cameras detected: " << numCameras << endl; // number of camera printed
-    // cameras connection are ready 
-    for(cam_idx=0; cam_idx < numCameras; cam_idx++) 
+    // get camera features and modes!! 
+    for(cam_idx=0; cam_idx < _numCameras; cam_idx++) 
     {
-        cam_grabber[cam_idx].setCameraIndex(cam_idx); // Default camera is the first on the bus
-        cam_grabber[cam_idx].getCameraInfo(cout); // printing camera info
+        (*cam_grabber)[cam_idx].setCameraIndex(cam_idx); // Default camera is the first on the bus
+        (*cam_grabber)[cam_idx].getCameraInfo(cout); // printing camera info
 
-        if ( !setAllParameters( brightness,exposure, gain, shutter) )
+        if ( !setAllParameters( _brightness, _exposure, _gain, _shutter) )
         {   
             cout << "Camera parameter setting FAILED at cam#" << cam_idx << "\n";
             return(false);
         } // set the image settings
-        if ( !setVideoMode(mode_value, w, h) )
+        if ( !setVideoMode(_videomode, _wigth, _hight))
         {
             cout << "Camera video mode setting FAILED at cam#" << cam_idx << "\n";
             return(false);
         }// set the video mode 
-        if ( !setFrameRate(frame_rate) )
+
+        if ( !setFrameRate(_frame_rate) )
         {
             cout << "Camera framerate setting FAILED at cam#" << cam_idx << "\n";
             return(false);
         }// set the framerate 
-                
 
-        // ##################################################################################
-        // ??????????????????????? NEXT to be done is connect and open ??????????????.
-        // ??????????????????????? One function must be made to called start camera ??????????
-        // ##################################################################################
+        if ( !startCam() ) // if true the grabImage will be called next
+        {
+            cout << "Camera connection FAILED at cam#" << cam_idx << "\n";
+            return(false);
+        }// start camera 
 
         return(true); //after all return true
     }//cam_idx
-    #else
-        cout:<< "Flycapture SDK is not installed!! closing the software ...." << endl;
-        return (false);
-        // call the deconstructor
-    #endif
 }//initCamera
 
-bool Camera::setAllParameters(float &brightness, float &exposure, float &gain, float &shutter)
+bool Camera::grabImage(){
+    for( cam_idx=0; cam_idx < _numCameras; cam_idx++ ) 
+    {   
+        if (_rgb_flag) 
+        {
+            try
+            {  
+                (*cam_grabber)[cam_idx].acquire((*image_RGB_grabbed)[cam_idx]);
+                return(true);
+            }catch(const vpException &e)
+            {
+                cout << "FAILED to acquire new rgb frame " << e.getStringMessage() << '\n';
+                return(false);
+            }
+        }else
+        {
+            try
+            {  
+                (*cam_grabber)[cam_idx].acquire((*image_gray_grabbed)[cam_idx]);
+                return(true);
+            }catch(const vpException &e)
+            {
+                cout << "FAILED to acquire new gray frame " << e.getStringMessage() << '\n';
+                return(false);
+            }
+        }           
+    }
+    return(true); //after all return true
+}
+
+bool Camera::setAllParameters(float brightness, float exposure, float gain, float shutter)
 {// set all the image parameters 
 
-    if (!auto_flag){
+    if (!_auto_flag){
     // set the parametrs manually
         cout << "Camera #"<<cam_idx<<" is set to manual settings\n";
         try
@@ -118,14 +156,14 @@ bool Camera::setAllParameters(float &brightness, float &exposure, float &gain, f
 bool Camera::setManual2Auto()
 {   try{ 
         // auto_flag = true; NOT SURE ABOUT THIS ONE
-        gain_new = cam_grabber[cam_idx].setGain(auto_flag); // Turn auto gain on
-        cout << "\tGain auto at : " << gain_new << "\n";
-        shutter_new = cam_grabber[cam_idx].setShutter(auto_flag); // Turn auto shutter on
-        cout << "\tShutter auto  : " << shutter_new << "\n";
-        brightness_new = cam_grabber[cam_idx].setBrightness(auto_flag); // Turn auto brightness on
-        cout << "\tBrightness auto  : " << brightness_new << "\n";
-        exposure_new = cam_grabber[cam_idx].setExposure(auto_flag, auto_flag); // Turn auto exposures on
-        cout << "\tExposure auto  : " << exposure_new << endl;
+        (*cam_grabber)[cam_idx].setGain(_auto_flag); // Turn auto gain on
+        cout << "\tGain auto at : " << (*cam_grabber)[cam_idx].getGain() << "\n";
+        (*cam_grabber)[cam_idx].setShutter(_auto_flag); // Turn auto shutter on
+        cout << "\tShutter auto  : " << (*cam_grabber)[cam_idx].getShutter() << "\n";
+        (*cam_grabber)[cam_idx].setBrightness(_auto_flag); // Turn auto brightness on
+        cout << "\tBrightness auto  : " << (*cam_grabber)[cam_idx].getBrightness() << "\n";
+        (*cam_grabber)[cam_idx].setExposure(true, _auto_flag); // Turn auto exposures on
+        cout << "\tExposure auto  : " << (*cam_grabber)[cam_idx].getExposure() << endl;
         return(true);
     } catch (const vpException &e) { // if catches any exception from setFuncs
         cout << "failed to start auto settings" << e.getStringMessage() <<endl;
@@ -133,89 +171,100 @@ bool Camera::setManual2Auto()
     }//try 
 }//setManual2Auto
 
-void Camera::setBrightness (float brightness)
+void Camera::setBrightness (const float &brightness)
 {
-    brightness_new = cam_grabber[cam_idx].setBrightness(auto_flag, brightness); // Turn manual brightness on
-    cout << "\tBrightness manual: " << brightness_new << endl;
+   (*cam_grabber)[cam_idx].setBrightness(_auto_flag, brightness); // Turn manual brightness on
+    cout << "\tBrightness manual: " << (*cam_grabber)[cam_idx].getBrightness() << endl;
 }//setBrightness
 
-void Camera::setExposure(float exposure)
+void Camera::setExposure(const float &exposure)
 {
-    exposure_new = cam_grabber[cam_idx].setExposure(auto_flag, exposure); // Turn manual exposure on 
-    cout << "\tExposure manual: " << exposure_new << endl;
+    (*cam_grabber)[cam_idx].setExposure(true, _auto_flag, exposure); // Turn manual exposure on 
+    cout << "\tExposure manual: " << (*cam_grabber)[cam_idx].getExposure() << endl;
 }//setExposure
 
-void Camera::setGain(float gain)
+void Camera::setGain(const float &gain)
 {
-    gain_new = cam_grabber[cam_idx].setGain(auto_flag, gain); // Turn manual brightness on to 2%
-    cout << "\tGain manual: " << gain_new << endl;
+    (*cam_grabber)[cam_idx].setGain(_auto_flag, gain); // Turn manual brightness on to 2%
+    cout << "\tGain manual: " << (*cam_grabber)[cam_idx].getGain() << endl;
 }//setGain
 
-void Camera::setShutter(float shutter)
+void Camera::setShutter(const float &shutter)
 {
-    shutter_new = cam_grabber[cam_idx].setGain(auto_flag, shutter); // Turn manual brightness on to 2%
-    cout << "\tShutter manual: " << shutter_new << endl;
+    (*cam_grabber)[cam_idx].setShutter(_auto_flag, shutter); // Turn manual brightness on to 2%
+    cout << "\tShutter manual: " << (*cam_grabber)[cam_idx].getShutter() << endl;
 }//setShutter
 
-bool Camera::setVideoMode(int mode_value, unsigned int &w, unsigned int &h)
+bool Camera::setVideoMode(VideoMode &_videomode, unsigned int _wigth, unsigned int _hight)
 {
-    if ( mode_value<1 || mode_value>5 ) // mode value is not in the defined range
-    {
-        cout << "Seleced video mode is out of range" <<endl;
-        return (false);
-    }
     try{ 
-        switch( mode_value )        
+        switch( _videomode )        
         // setFormat7VideoMode throws an exception checking for that
         {
             case FORMAT_MONO8:
                 // PIXEL_FORMAT_MONO8 mode
-                cam_grabber[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_7, 
-                                                            FlyCapture2::PIXEL_FORMAT_MONO8, w, h);
-                cout << "Seleced video mode is FORMAT_MONO8" <<endl;
+                (*cam_grabber)[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_0, 
+                                                            FlyCapture2::PIXEL_FORMAT_MONO8, _wigth, _hight);
+                cout << "\tSeleced video mode is FORMAT_MONO8" <<endl;
                 break;
             case FORMAT_RAW8:
                 // PIXEL_FORMAT_RAW8 mode
-                cam_grabber[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_7, 
-                                                            FlyCapture2::PIXEL_FORMAT_RAW8, w, h);
-                cout << "Seleced video mode is FORMAT_RAW8" <<endl;                                          
+                (*cam_grabber)[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_0, 
+                                                            FlyCapture2::PIXEL_FORMAT_RAW8, _wigth, _hight);
+                cout << "\tSeleced video mode is FORMAT_RAW8" <<endl;                                          
                 break;
             case FORMAT_RGB8:
                 // PIXEL_FORMAT_RGB8 mode
-                cam_grabber[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_7, 
-                                                            FlyCapture2::PIXEL_FORMAT_RGB8, w, h);
-                cout << "Seleced video mode is FORMAT_RGB8" <<endl; 
+                (*cam_grabber)[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_0, 
+                                                            FlyCapture2::PIXEL_FORMAT_RGB8, _wigth, _hight);
+                cout << "\tSeleced video mode is FORMAT_RGB8" <<endl; 
                 break;
             case FORMAT_MONO12:
                 // PIXEL_FORMAT_MONO12 mode
-                cam_grabber[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_7, 
-                                                            FlyCapture2::PIXEL_FORMAT_MONO12, w, h);
-                cout << "Seleced video mode is FORMAT_MONO12" <<endl; 
+                (*cam_grabber)[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_0, 
+                                                            FlyCapture2::PIXEL_FORMAT_MONO12, _wigth, _hight);
+                cout << "\tSeleced video mode is FORMAT_MONO12" <<endl; 
                 break;
             case FORMAT_RAW12:
                 // PIXEL_FORMAT_RAW12 mode
-                cam_grabber[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_7, 
-                                                            FlyCapture2::PIXEL_FORMAT_RAW12, w, h);
-                cout << "Seleced video mode is FORMAT_RAW12" <<endl; 
+                (*cam_grabber)[cam_idx].setFormat7VideoMode(FlyCapture2::MODE_0, 
+                                                            FlyCapture2::PIXEL_FORMAT_RAW12, _wigth, _hight);
+                cout << "\tSeleced video mode is FORMAT_RAW12" <<endl; 
                 break;
-            // return true if there is no exception and one case
-            return (true); // one mode is selected
         }
+        // return true if there is no exception and one case
+        return (true); // one mode is selected
     } catch (...) { // if catches any exception from setFormat7VideoMode
-        cout << "Seleced video mode is not supported" <<endl;
+        cout << "\tSeleced video mode is not supported" <<endl;
         return (false);
     }//try 
 }//setVideoMode
 
-bool Camera::setFrameRate(float &frame_rate)
+bool Camera::setFrameRate(unsigned int  &_frame_rate)
 {
     try{ 
-        frame_rate = cam_grabber[cam_idx].setFrameRate(frame_rate);  
-        cout << "framerate is set to "<< frame_rate <<endl;
+        cout << "\tframerate is set to "<< (*cam_grabber)[cam_idx].setFrameRate(_frame_rate) <<endl;
         // return true if there is no exception and one case
         return (true); // framerate is selected
     } catch (...) { // if catches any exception from setFrameRate
-        cout << "Seleced framerate is not supported" <<endl;
+        cout << "\tSeleced framerate is not supported" <<endl;
         return (false);
     }//try 
 }//setFrameRate
+
+bool Camera::startCam(){
+    try{ 
+        (*cam_grabber)[cam_idx].connect();  
+        (*cam_grabber)[cam_idx].startCapture();
+        cout << "camera #" << cam_idx << " started \n";
+        return (true); // camera is connected
+    } catch (const vpException &e) { // if catches any exception from connect
+        cout << "failed to start image capturing at camera #" << cam_idx << e.getStringMessage() <<endl;
+        return (false);
+    }//try 
+}//startCam
+
+// ##################################################################################
+// ??????????????????????? NEXT to be done is image write ??????????????.
+// ??????????????????????? also refrencing the image ??????????
+// ##################################################################################

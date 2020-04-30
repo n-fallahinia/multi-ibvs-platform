@@ -1,1 +1,0 @@
-/usr/bin/g++-5  -g  -rdynamic CMakeFiles/ibvs.dir/main.cpp.o  -o ibvs -lCameraClass 

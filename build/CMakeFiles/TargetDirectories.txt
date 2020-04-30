@@ -1,8 +1,0 @@
-/home/navid/multi-ibvs-platform/build/CMakeFiles/rebuild_cache.dir
-/home/navid/multi-ibvs-platform/build/CMakeFiles/edit_cache.dir
-/home/navid/multi-ibvs-platform/build/include/CameraClass/CMakeFiles/rebuild_cache.dir
-/home/navid/multi-ibvs-platform/build/include/CameraClass/CMakeFiles/CameraClass.dir
-/home/navid/multi-ibvs-platform/build/include/CameraClass/CMakeFiles/edit_cache.dir
-/home/navid/multi-ibvs-platform/build/src/CMakeFiles/rebuild_cache.dir
-/home/navid/multi-ibvs-platform/build/src/CMakeFiles/ibvs.dir
-/home/navid/multi-ibvs-platform/build/src/CMakeFiles/edit_cache.dir

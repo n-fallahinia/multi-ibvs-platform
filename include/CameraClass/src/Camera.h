@@ -1,73 +1,87 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#include <cstdio>
+#include <cstdlib>
+#include <sys/time.h>
 #include <iostream>
 #include <vector> 
-
+#include <string>
+// include VISP lib
 #include <visp3/core/vpImage.h>
 #include <visp3/gui/vpDisplayX.h>
 #include <visp3/io/vpImageIo.h>
 #include <visp3/sensor/vpFlyCaptureGrabber.h>
-// include VISP lib
-#include <FlyCapture2.h>
 // include flycapture lib
-#include <opencv2/highgui.hpp>
-// #include <opencv2/calib3d.hpp>
-// #include <opencv2/aruco/charuco.hpp>
-// #include <opencv2/imgproc.hpp>
+#include <FlyCapture2.h>
 // include Opencv
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 
 // Define the video modes
-#define FORMAT_MONO8  1 // probably the default case
-#define FORMAT_RAW8   2
-#define FORMAT_RGB8   3
-#define FORMAT_MONO12 4
-#define FORMAT_RAW12  5
+// The default case is MONO8
+enum VideoMode 
+{ 
+    FORMAT_MONO8, FORMAT_RAW8, FORMAT_RGB8, FORMAT_MONO12, FORMAT_RAW12
+};
 
 // Define the frame rate speed
-#define FORMAT_15   1 
-#define FORMAT_30   2
-#define FORMAT_60   3 // probably the default case
+// The default case is FORMAT_30
+enum FrameRate 
+{ 
+    FORMAT_15, FORMAT_30, FORMAT_60
+};
 
-static std::vector<vpFlyCaptureGrabber>  cam_grabber(2); // Create a grabber based on FlyCapture SDK third party lib
+struct CamParams
+{
+    bool auto_flag;
+    bool rgb_flag;
+    float brightness;
+    float gain;
+    float exposure; 
+    float shutter;
+    int width;
+    int hight;
+    float framerate;
+    VideoMode videomode;
+};
 
 class Camera
 {   
-    public:
-        // vector<vpImage<vpRGBa>> image_color_grabbed; // Create a color level image container
-        vpImage<unsigned char>          image_gray_grabbed; // Create a gray level image container
-        int                             numCameras;
+    std::vector<float> _cam_parameters;
+    bool    _auto_flag;
+    bool    _rgb_flag;
+    float   _shutter;
+    float   _brightness;
+    float   _gain;
+    float   _exposure;
+    unsigned int   _frame_rate;
+    VideoMode   _videomode;
+    unsigned int    _wigth;
+    unsigned int    _hight;
+    int     _numCameras;
+    int     _mode_value;
 
-        Camera();
-        ~Camera();
-        bool initCamera();
-        bool setAllParameters(float&, float&, float&, float&);
-        bool setManual2Auto();
-        void setBrightness(float);
-        void setExposure(float);
-        void setGain(float);
-        void setShutter(float);
-        bool setVideoMode(int, unsigned int&, unsigned int&);
-        bool setFrameRate(float &);
-        void getParameters(float *, float *, float *, float *);
-  
-    private:
-        std::vector<float>              cam_parameters;
-
-        int                             cam_idx;
-        bool                            auto_flag;
-        float                           shutter;
-        float                           brightness;
-        float                           gain;
-        float                           exposure;
-        float                           shutter_new;
-        float                           brightness_new;
-        float                           gain_new;
-        float                           exposure_new;
-        float                           frame_rate;
-        int                             mode_value;
-        unsigned int                    w;
-        unsigned int                    h;
+public:    
+    std::vector<vpFlyCaptureGrabber>    *cam_grabber; // Create a grabber based on FlyCapture SDK third party lib
+    std::vector<vpImage<vpRGBa>>    *image_RGB_grabbed; // Create a color level image container
+    std::vector<vpImage<unsigned char>>     *image_gray_grabbed; // Create a gray level image container
+    int  cam_idx;  // will be used in other classes as well
+    
+    Camera(); // default constructor
+    Camera(CamParams &camparams);
+    ~Camera();
+    bool initCamera();
+    bool grabImage();
+    bool setAllParameters(float _brightness, float _exposure, float _gain, float _shutter);
+    bool setManual2Auto();
+    void setBrightness(const float &_brightness);
+    void setExposure(const float &_exposure);
+    void setGain(const float &_gain);
+    void setShutter(const float &_shutter);
+    bool setVideoMode(VideoMode &_videomode, unsigned int _wigth, unsigned int _hight);
+    bool setFrameRate(unsigned int &_frame_rate);
+    bool startCam();
 };
-
 #endif //CAMERA_H_
