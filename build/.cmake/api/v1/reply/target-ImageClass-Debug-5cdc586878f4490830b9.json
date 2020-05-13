@@ -1,0 +1,284 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "/home/navid/multi-ibvs-platform/lib/libImageClass.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"include_directories",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"include/ImageClass/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 4,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 38,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 12,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -fopenmp -fPIC -g   -std=c++11"
+				},
+				{
+					"fragment" : "-std=c++11"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-build/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/core/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/gui/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/imgproc/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/io/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/tracker/klt/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/tracker/me/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/sensor/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/ar/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/tracker/blob/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/robot/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/visual_features/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/vs/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/vision/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/detection/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/tracker/mbt/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/tracker/tt/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/navid/visp-ws/visp-3.3.0/modules/tracker/tt_mi/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/navid/multi-ibvs-platform/include/ImageClass/src"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/local/include/opencv4"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/eigen3"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/libxml2"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/libusb-1.0"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/flycapture"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/pcl-1.8"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/ni"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/openni2"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/vtk-6.3"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/freetype2"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/lib/x86_64-linux-gnu/openmpi/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/python2.7"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/hdf5/openmpi"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/jsoncpp"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/tcl"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/include/OGRE"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"id" : "ImageClass::@363f763fe01c823fdcf1",
+	"name" : "ImageClass",
+	"nameOnDisk" : "libImageClass.a",
+	"paths" : 
+	{
+		"build" : "include/ImageClass",
+		"source" : "include/ImageClass"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "include/ImageClass/src/Image.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/ImageClass/src/Image.h",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

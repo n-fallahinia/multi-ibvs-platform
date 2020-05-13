@@ -48,9 +48,15 @@ Camera::Camera(CamParams &camparams)
 Camera::~Camera()
 {
     delete cam_grabber;
-    delete image_RGB_grabbed;
-    delete image_gray_grabbed;
-}
+     if (_rgb_flag)
+    {
+        delete image_RGB_grabbed;
+    }
+    else 
+    {
+        delete image_gray_grabbed;
+    }
+ }
 
 bool Camera::initCamera()
 {// initializing camera setiing
@@ -101,6 +107,7 @@ bool Camera::grabImage(){
             try
             {  
                 (*cam_grabber)[cam_idx].acquire((*image_RGB_grabbed)[cam_idx]);
+                // cout << "Image size : " << (*image_RGB_grabbed)[cam_idx].getWidth() << " " << (*image_RGB_grabbed)[cam_idx].getHeight() << endl;
                 return(true);
             }catch(const vpException &e)
             {
@@ -112,6 +119,7 @@ bool Camera::grabImage(){
             try
             {  
                 (*cam_grabber)[cam_idx].acquire((*image_gray_grabbed)[cam_idx]);
+                // cout << "Image size : " << (*image_gray_grabbed)[cam_idx].getWidth() << " " << (*image_RGB_grabbed)[cam_idx].getHeight() << endl;
                 return(true);
             }catch(const vpException &e)
             {

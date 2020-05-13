@@ -71,7 +71,7 @@ public:
     
     Camera(); // default constructor
     Camera(CamParams &camparams);
-    ~Camera();
+    virtual ~Camera();
     bool initCamera();
     bool grabImage();
     bool setAllParameters(float _brightness, float _exposure, float _gain, float _shutter);

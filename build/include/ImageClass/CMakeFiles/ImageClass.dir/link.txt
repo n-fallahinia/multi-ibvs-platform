@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../../lib/libImageClass.a  CMakeFiles/ImageClass.dir/src/Image.cpp.o
+/usr/bin/ranlib ../../../lib/libImageClass.a
