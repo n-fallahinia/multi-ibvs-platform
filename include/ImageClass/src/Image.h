@@ -7,6 +7,7 @@
 // include VISP for image manipulation
 #include <visp3/core/vpImage.h>
 #include <visp3/core/vpImageConvert.h>
+#include <visp3/io/vpImageIo.h>
  
 #if VISP_HAVE_OPENCV_VERSION >= 0x040000
     #include <opencv2/core/core.hpp>
@@ -32,8 +33,8 @@ public:
     Image(std::vector<vpImage<unsigned char>> &images_list); // probably one with the initial image size!!
     virtual ~Image();
 
-    void readImage(std::vector<vpImage<vpRGBa>> &images_list);
-    void writeImage(std::vector<vpImage<vpRGBa>> &images_list);
+    bool readImage(std::vector<vpImage<vpRGBa>> &images_list);
+    bool writeImage(vpImage<vpRGBa> &images_list, std::string &filename);
     void convertImage(std::vector<vpImage<vpRGBa>> &images_list);
     unsigned int getImageSize(vpImage<vpRGBa> &image);
 };

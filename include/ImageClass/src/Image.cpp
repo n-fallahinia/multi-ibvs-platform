@@ -51,6 +51,17 @@ void Image::convertImage(std::vector<vpImage<vpRGBa>> &images_list)
     }          
 }
 
+bool writeImage(vpImage<vpRGBa> image, std::string &filename)
+{
+    try {
+        vpImageIo::write(image, filename);
+    } catch (const vpException &e) {
+            std::cout << e.getMessage() << std::endl;
+    } catch (...) {
+            std::cout << "Unsupported image format" << std::endl;
+    }
+}
+
 unsigned int getImageSize(vpImage<vpRGBa> &image)
 {
     unsigned int _size = image.getHeight() * image.getWidth();
