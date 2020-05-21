@@ -4,13 +4,13 @@
 // #include "TestClass.h"
 #include "Camera.h"
 #include "Image.h"
+#include "Tracking.h"
 
 using namespace std;
 using namespace std::chrono; 
 
 int main()
 {   
-    auto start = high_resolution_clock::now(); 
     // ====================================================
     // camera parameters initializing
     CamParams camera_parameters;
@@ -28,10 +28,14 @@ int main()
     // camera start
     Camera camera_m(camera_parameters);
     if(camera_m.initCamera()){cout<<"Success1\n";}
+    auto start = high_resolution_clock::now(); 
     if(camera_m.grabImage()){cout<<"Success2\n";}
+
     Image image_m((*camera_m.image_RGB_grabbed));
     image_m.convertImage((*camera_m.image_RGB_grabbed));
-    // cv::imwrite("image-cv.ppm", image_m.cvimage_list[0]);
+
+    Tracking track_m(2); 
+
     auto stop = high_resolution_clock::now(); 
     auto duration = duration_cast<milliseconds>(stop - start); 
     cout << duration.count() << " milliseconds" <<  endl; 

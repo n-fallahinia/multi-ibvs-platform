@@ -1,3 +1,23 @@
+/* =================================================================================
+    Camera Class for handeling the PointGrey cameras attached to each of the robots. 
+    This class is designed to be used up to two cameras but can be chnaged to be
+    used for any number of cameras simultaneously. This class is an inference from 
+    VISP 1.3 which is a wrapper class from flycapture 2.0, That's why both 
+    flycapture and Visp are included. Grabbed images are a vector of vpImage object. 
+    Conversion to cv.mat object is impelemented in the image class. 
+
+    UNIVERSITY OF UTAH
+    BIOROBOTICS LAB
+    Navid Fallahinia
+    12/08/2019
+=================================================================================*/ 
+
+/*!
+  \file Camera.h
+  \brief Grab images
+*/
+
+
 #ifndef CAMERA_H
 #define CAMERA_H
 

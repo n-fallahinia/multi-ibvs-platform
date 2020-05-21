@@ -5,4 +5,6 @@ add_executable(ibvs main.cpp)
 
 target_link_libraries(ibvs 
                         PRIVATE CameraClass
-                        PRIVATE ImageClass)
+                        PRIVATE ImageClass
+                        PRIVATE TrackingClass
+                        )

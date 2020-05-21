@@ -1,3 +1,20 @@
+/* =================================================================================
+    Image Class for handeling the image captured by the PointGrey cameras 
+    attached to each of the robots. Main objective of this class is to convert visp 
+    image in to the MAt format supported by opencv. Ultimatly, aruco tracking or YOLO 
+    will be used based of the converted images. 
+
+    UNIVERSITY OF UTAH
+    BIOROBOTICS LAB
+    Navid Fallahinia
+    12/08/2019
+=================================================================================*/ 
+
+/*!
+  \file Image.h
+  \brief Read/write/Convert images
+*/
+
 #ifndef IMAGE_H
 #define IMAGE_H
 
