@@ -25,17 +25,21 @@ int main()
     camera_parameters.framerate = 30;
     camera_parameters.videomode = VideoMode::FORMAT_RGB8;
     // ====================================================
-    // camera start
+    // camera start from camera class
     Camera camera_m(camera_parameters);
     if(camera_m.initCamera()){cout<<"Success1\n";}
     auto start = high_resolution_clock::now(); 
     if(camera_m.grabImage()){cout<<"Success2\n";}
-
+    // ====================================================
+    // image convert from visp to cv from image class 
     Image image_m((*camera_m.image_RGB_grabbed));
-    image_m.convertImage((*camera_m.image_RGB_grabbed));
-
-    Tracking track_m(2); 
-
+    image_m.convertImage((*camera_m.image_RGB_grabbed)); 
+    // ====================================================
+    // track aruco from track class
+    Tracking *track_m = new Tracking(2, false); 
+    track_m->detetcMarkers(image_m.cvimage_list[0]);
+    // ====================================================
+    // the clock stuff
     auto stop = high_resolution_clock::now(); 
     auto duration = duration_cast<milliseconds>(stop - start); 
     cout << duration.count() << " milliseconds" <<  endl; 
