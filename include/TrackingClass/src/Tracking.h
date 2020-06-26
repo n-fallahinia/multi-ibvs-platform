@@ -37,6 +37,8 @@ class Tracking
     bool _readParameters_flag = false;
 
 public: 
+    std::vector<cv::Point2f> corner_centers;
+
     Tracking();
     Tracking(int dictionary_id, bool readParameters_flag);
     virtual ~Tracking();
@@ -44,6 +46,7 @@ public:
     void setDetectorParameters(std::string filename);
     void detetcMarkers(cv::Mat input_image, int point_number =4, bool initial_check= false);
     void drawDetectedMarkers(cv::Mat input_image, bool show_center =false);
+    void findCenters(std::vector<int> markerIds, std::vector<std::vector<cv::Point2f>> markerCorners);
 };
 
 #endif //TRACKING_H_

@@ -83,14 +83,45 @@ void Tracking::setDetectorParameters(std::string filename)
     }
 }
 
+void Tracking::findCenters(std::vector<int> markerIds, std::vector<std::vector<cv::Point2f>> markerCorners)
+{
+    for (size_t idIdx = 0; idIdx < _markerIds.size(); idIdx++)
+    {
+        std::cout << "\t ID# "<< _markerIds[idIdx] << " : ";
+        float x_coordinate = 0;
+        float y_coordinate = 0; 
+        for (size_t cornerIdx = 0; cornerIdx < 4; cornerIdx++)
+        {
+            std::cout << _markerCorners[idIdx][cornerIdx].x << "," << _markerCorners[idIdx][cornerIdx].y ;
+            x_coordinate =+ _markerCorners[idIdx][cornerIdx].x;
+            y_coordinate =+ _markerCorners[idIdx][cornerIdx].y;
+            std::cout << " | ";
+        }
+        std::cout<<""<<std::endl;
+        cv::Point2f corner_center(x_coordinate/4,y_coordinate/4); 
+        corner_centers.push_back(corner_center);          
+    }
+    // !!!! this function might need fix if ids are not match with orders !!!
+}
+
 void Tracking::drawDetectedMarkers(cv::Mat input_image, bool show_center)
 {
     input_image.copyTo(_copy_image);
     if(_markerIds.size() > 0) 
     {
+        // draw each detected marker
         cv::aruco::drawDetectedMarkers(_copy_image, _markerCorners, _markerIds);
+        // find the corner centers
+        findCenters(_markerIds,_markerCorners);
+        // draw the centers if flag is true
+        if (show_center)
+        {
+            for (size_t centerIdx = 0; centerIdx < corner_centers.size(); centerIdx++)
+            {
+                 cv::circle(input_image, corner_centers[centerIdx], 1, cv::Scalar( 0, 0, 255), cv::FILLED);
+            }
+        }
     }
-    // CALCULATE THE CENTER AND DRAW HERE!!!!!!!!!!!!!!!!!
 }
 
 void Tracking::detetcMarkers(cv::Mat input_image, int point_number, bool initial_check)
@@ -106,10 +137,7 @@ void Tracking::detetcMarkers(cv::Mat input_image, int point_number, bool initial
     }else
     {
         std::cout << _markerIds.size() << " points have been found" << std::endl;
-        drawDetectedMarkers(input_image);
-        // Rest of the tracking, pprobably just printing the centers and drawing the markers
-        // !!!!!!!!!!!!!!!!!!!!
+        drawDetectedMarkers(input_image, true);       
     }
-    
 }
 
