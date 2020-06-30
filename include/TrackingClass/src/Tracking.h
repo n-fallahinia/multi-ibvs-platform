@@ -29,7 +29,6 @@
 
 class Tracking
 {
-    cv::Mat _copy_image;
     std::vector<int> _markerIds;
     std::vector<std::vector<cv::Point2f>> _markerCorners;
     cv::Ptr<cv::aruco::Dictionary> _dictionary; 
@@ -38,6 +37,7 @@ class Tracking
 
 public: 
     std::vector<cv::Point2f> corner_centers;
+    cv::Mat copy_image;
 
     Tracking();
     Tracking(int dictionary_id, bool readParameters_flag);

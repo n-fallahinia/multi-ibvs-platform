@@ -93,12 +93,13 @@ void Tracking::findCenters(std::vector<int> markerIds, std::vector<std::vector<c
         for (size_t cornerIdx = 0; cornerIdx < 4; cornerIdx++)
         {
             std::cout << _markerCorners[idIdx][cornerIdx].x << "," << _markerCorners[idIdx][cornerIdx].y ;
-            x_coordinate =+ _markerCorners[idIdx][cornerIdx].x;
-            y_coordinate =+ _markerCorners[idIdx][cornerIdx].y;
+            x_coordinate += _markerCorners[idIdx][cornerIdx].x;
+            y_coordinate += _markerCorners[idIdx][cornerIdx].y;
             std::cout << " | ";
         }
         std::cout<<""<<std::endl;
         cv::Point2f corner_center(x_coordinate/4,y_coordinate/4); 
+        // std::cout << corner_center.x << "   " <<corner_center.y << std::endl;
         corner_centers.push_back(corner_center);          
     }
     // !!!! this function might need fix if ids are not match with orders !!!
@@ -106,19 +107,20 @@ void Tracking::findCenters(std::vector<int> markerIds, std::vector<std::vector<c
 
 void Tracking::drawDetectedMarkers(cv::Mat input_image, bool show_center)
 {
-    input_image.copyTo(_copy_image);
+    input_image.copyTo(copy_image);
     if(_markerIds.size() > 0) 
     {
         // draw each detected marker
-        cv::aruco::drawDetectedMarkers(_copy_image, _markerCorners, _markerIds);
+        cv::aruco::drawDetectedMarkers(copy_image, _markerCorners, _markerIds);
         // find the corner centers
         findCenters(_markerIds,_markerCorners);
         // draw the centers if flag is true
         if (show_center)
         {
-            for (size_t centerIdx = 0; centerIdx < corner_centers.size(); centerIdx++)
+            for (auto centerIdx : corner_centers)
             {
-                 cv::circle(input_image, corner_centers[centerIdx], 1, cv::Scalar( 0, 0, 255), cv::FILLED);
+                cv::circle(copy_image, centerIdx, 10, cv::Scalar( 0, 0, 255), cv::FILLED);
+                // MUST FIND A WAY TO REMOVE CIRCLES!!!! 
             }
         }
     }

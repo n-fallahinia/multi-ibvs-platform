@@ -43,11 +43,10 @@ Image::~Image(){}
 
 void Image::convertImage(std::vector<vpImage<vpRGBa>> &images_list)
 {   
-    cv::Mat cvimage;
     for (auto cam_idx = 0; cam_idx < images_list.size(); cam_idx++)
     {
         vpImageConvert::convert(images_list[cam_idx], cvimage);
-        cvimage_list.push_back(cvimage);
+        // cvimage_list.push_back(cvimage);
     }          
 }
 

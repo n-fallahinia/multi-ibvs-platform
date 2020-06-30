@@ -27,22 +27,31 @@ int main()
     // ====================================================
     // camera start from camera class
     Camera camera_m(camera_parameters);
-    if(camera_m.initCamera()){cout<<"Success1\n";}
-    auto start = high_resolution_clock::now(); 
-    if(camera_m.grabImage()){cout<<"Success2\n";}
+    bool camera_start_flag = camera_m.initCamera();
+    Image *image_m = new Image();
+    Tracking *track_m = new Tracking(1, false); 
+    // auto start = high_resolution_clock::now(); 
     // ====================================================
-    // image convert from visp to cv from image class 
-    Image image_m((*camera_m.image_RGB_grabbed));
-    image_m.convertImage((*camera_m.image_RGB_grabbed)); 
-    // ====================================================
-    // track aruco from track class
-    Tracking *track_m = new Tracking(2, false); 
-    track_m->detetcMarkers(image_m.cvimage_list[0]);
-    // ====================================================
+    int wait_time = 10;
+    while (1) 
+    {
+        camera_m.grabImage();
+        // image convert from visp to cv from image class 
+        image_m->convertImage((*camera_m.image_RGB_grabbed)); 
+        // track aruco from track class
+        track_m->detetcMarkers(image_m->cvimage);
+        cv::namedWindow("Detected markers", cv::WINDOW_NORMAL );
+        cv::imshow("Detected markers", track_m->copy_image);
+
+        char key = (char)cv::waitKey(wait_time);
+        if (key == 27)
+            break;
+    }
+
     // the clock stuff
-    auto stop = high_resolution_clock::now(); 
-    auto duration = duration_cast<milliseconds>(stop - start); 
-    cout << duration.count() << " milliseconds" <<  endl; 
+    // auto stop = high_resolution_clock::now(); 
+    // auto duration = duration_cast<milliseconds>(stop - start); 
+    // cout << duration.count() << " milliseconds" <<  endl; 
 
     return 0;
 }

@@ -44,6 +44,7 @@ class Image
 
 public:
     std::vector<cv::Mat> cvimage_list;
+    cv::Mat cvimage;
 
     Image();
     Image(std::vector<vpImage<vpRGBa>> &images_list); // probably one with the initial image size!!
