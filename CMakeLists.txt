@@ -17,14 +17,41 @@
 #     to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 #     copies of the Software, and to permit persons to whom the Software is
 #     furnished to do so, subject to the following conditions:
+# 
+#     If you have questions regarding the use of this file, please contact
+#     Biorobotics Lab at smascaro@utah.edu
+# 
+#    Description:
+#    IBVS overall configuration file. Detect third party libraries 
 # =================================================================================
 
-project(ibvs)
+project(IBVS C CXX)
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+# Modify default install prefix
+if(WIN32)
+    execute_process(COMMAND "${GIT_EXECUTABLE}" describe --tags --always --dirty --match "[0-9].[0-9].[0-9]*"
+    ERROR_QUIET
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+endif()
+
+# By default set release configuration
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE)
+endif()
+
 ## add c++ definitions
 add_definitions(-std=c++11)
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
+
+#-----------------------------------------------------------------------------
+# IBVS version number.  An even minor number corresponds to releases.
+set(IBVS_VERSION_MAJOR "1")
+set(IBVS_VERSION_MINOR "1")
+set(IBVS_VERSION_PATCH "3")
+set(IBVS_VERSION "${VISP_VERSION_MAJOR}.${VISP_VERSION_MINOR}.${VISP_VERSION_PATCH}")
+#-----------------------------------------------------------------------------
 
 ## set the executable to <install_directory>/bin
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
@@ -56,8 +83,8 @@ set(TRACKINGCLASS_INCLUDE_DIRS "include/TrackingClass")
 # New libraries go in here !
 ###########################
 
-# message(STATUS "    include path: ${VISP_INCLUDE_DIRS}")
-# message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
+message(STATUS "    include path: ${VISP_INCLUDE_DIRS}")
+message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
 message(STATUS "    ==========================")
 message(STATUS "    OpenCV version: ${OpenCV_VERSION}")
 message(STATUS "    VISP version: ${VISP_VERSION}")

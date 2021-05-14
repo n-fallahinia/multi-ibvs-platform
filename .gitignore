@@ -3,6 +3,7 @@
 build/
 bin/
 lib/
+doc/aruco_marker/build/
 
 
 ### ArchLinuxPackages ###

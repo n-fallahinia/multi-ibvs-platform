@@ -16,16 +16,19 @@
 Tracking::Tracking(){std::cout << "Tracking class initiated" << std::endl;}
 
 // Tracking default constructor with dictionary id 
-Tracking::Tracking(int dictionary_id, bool readParameters_flag = false)
+Tracking::Tracking(int dictionary_id, bool readParameters_flag , int desired_point_numbers)
 {   
+    std::cout << "Tracking class initiated" << std::endl;
+    _desired_point_numbers = desired_point_numbers;
+    corner_centers.resize(_desired_point_numbers);
     if (readParameters_flag)
         // it is on default mode when the cosntructor is called
         _readParameters_flag = true; 
     try
     { 
-        std::cout <<" The selected dictionary aruco is: " << std::endl;
+        std::cout <<"The selected dictionary aruco is: ";
         _dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::PREDEFINED_DICTIONARY_NAME(dictionary_id));
-        std::cout << "\t" << cv::aruco::PREDEFINED_DICTIONARY_NAME(dictionary_id) << std::endl; // MUST BE FIXED!!!
+        std::cout << cv::aruco::PREDEFINED_DICTIONARY_NAME(dictionary_id) << std::endl; // MUST BE FIXED!!!
     }catch(const cv::Exception& e)
     {
         const char* _err_msg = e.what();
@@ -83,63 +86,66 @@ void Tracking::setDetectorParameters(std::string filename)
     }
 }
 
-void Tracking::findCenters(std::vector<int> markerIds, std::vector<std::vector<cv::Point2f>> markerCorners)
+void Tracking::findCenters(std::vector<int> markerIds, std::vector<std::vector<cv::Point2f>> markerCorners, bool verbose)
 {
     for (size_t idIdx = 0; idIdx < _markerIds.size(); idIdx++)
     {
-        std::cout << "\t ID# "<< _markerIds[idIdx] << " : ";
         float x_coordinate = 0;
         float y_coordinate = 0; 
         for (size_t cornerIdx = 0; cornerIdx < 4; cornerIdx++)
         {
-            std::cout << _markerCorners[idIdx][cornerIdx].x << "," << _markerCorners[idIdx][cornerIdx].y ;
             x_coordinate += _markerCorners[idIdx][cornerIdx].x;
             y_coordinate += _markerCorners[idIdx][cornerIdx].y;
-            std::cout << " | ";
         }
-        std::cout<<""<<std::endl;
         cv::Point2f corner_center(x_coordinate/4,y_coordinate/4); 
-        // std::cout << corner_center.x << "   " <<corner_center.y << std::endl;
-        corner_centers.push_back(corner_center);          
+        corner_centers[idIdx]= corner_center;     
+        if (verbose)
+        {
+            std::cout << "\t ID# "<< _markerIds[idIdx] << " : ";
+            for (size_t cornerIdx = 0; cornerIdx < 4; cornerIdx++)
+            {
+                std::cout << _markerCorners[idIdx][cornerIdx].x << "," << _markerCorners[idIdx][cornerIdx].y ;
+                std::cout << " | ";
+            }
+            std::cout<<""<<std::endl;
+
+        }
     }
-    // !!!! this function might need fix if ids are not match with orders !!!
 }
 
-void Tracking::drawDetectedMarkers(cv::Mat input_image, bool show_center)
+void Tracking::drawDetectedMarkers(cv::Mat input_image, bool verbose, bool show_center)
 {
-    input_image.copyTo(copy_image);
     if(_markerIds.size() > 0) 
     {
         // draw each detected marker
-        cv::aruco::drawDetectedMarkers(copy_image, _markerCorners, _markerIds);
-        // find the corner centers
-        findCenters(_markerIds,_markerCorners);
+        cv::aruco::drawDetectedMarkers(input_image, _markerCorners, _markerIds);      
         // draw the centers if flag is true
         if (show_center)
         {
-            for (auto centerIdx : corner_centers)
+            for (size_t cornerIdx = 0; cornerIdx < corner_centers.size(); cornerIdx++)           
             {
-                cv::circle(copy_image, centerIdx, 10, cv::Scalar( 0, 0, 255), cv::FILLED);
-                // MUST FIND A WAY TO REMOVE CIRCLES!!!! 
+                cv::circle(copy_image, corner_centers[cornerIdx], 10, cv::Scalar( 0, 0, 255), cv::FILLED);
+                if (verbose){
+                    std::cout<<"\t X: "<<corner_centers[cornerIdx].x<< " | Y: " <<corner_centers[cornerIdx].y <<std::endl;
+                }
             }
         }
     }
 }
 
-void Tracking::detetcMarkers(cv::Mat input_image, int point_number, bool initial_check)
+void Tracking::detetcMarkers(cv::Mat input_image, bool verbose)
 {  
     if(_readParameters_flag)
         cv::aruco::detectMarkers(input_image, _dictionary, _markerCorners, _markerIds, _detectorParameters);
     else
         cv::aruco::detectMarkers(input_image, _dictionary, _markerCorners, _markerIds);
-    if(initial_check)
-    {
-        std::cout << _markerIds.size() << " points have been found" << std::endl;
-        // ERROR HANDELING FOR THE INITIAL CALL !!!!!!!!!!!!!!!!
-    }else
-    {
-        std::cout << _markerIds.size() << " points have been found" << std::endl;
-        drawDetectedMarkers(input_image, true);       
-    }
+    input_image.copyTo(copy_image);
+    if (_markerIds.size()== _desired_point_numbers)
+    {   
+        if (verbose){ 
+            std::cout << "\t" << _markerIds.size() << " points have been found" << std::endl;
+        }
+        findCenters(_markerIds,_markerCorners, verbose);
+        drawDetectedMarkers(copy_image, verbose, true);
+    }   
 }
-

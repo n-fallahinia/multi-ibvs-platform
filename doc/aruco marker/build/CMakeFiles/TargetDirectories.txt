@@ -1,3 +1,0 @@
-/home/navid/multi-ibvs-platform/doc/aruco marker/build/CMakeFiles/rebuild_cache.dir
-/home/navid/multi-ibvs-platform/doc/aruco marker/build/CMakeFiles/aruco_maker.dir
-/home/navid/multi-ibvs-platform/doc/aruco marker/build/CMakeFiles/edit_cache.dir

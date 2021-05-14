@@ -34,19 +34,21 @@ class Tracking
     cv::Ptr<cv::aruco::Dictionary> _dictionary; 
     cv::Ptr<cv::aruco::DetectorParameters> _detectorParameters;
     bool _readParameters_flag = false;
+    bool _detection_success;
+    int _desired_point_numbers;
 
 public: 
     std::vector<cv::Point2f> corner_centers;
     cv::Mat copy_image;
 
     Tracking();
-    Tracking(int dictionary_id, bool readParameters_flag);
+    Tracking(int dictionary_id, bool readParameters_flag = false, int desired_point_numbers = 4);
     virtual ~Tracking();
     bool readDetectorParameters(std::string filename, cv::Ptr<cv::aruco::DetectorParameters> &detectorParameters);
     void setDetectorParameters(std::string filename);
-    void detetcMarkers(cv::Mat input_image, int point_number =4, bool initial_check= false);
-    void drawDetectedMarkers(cv::Mat input_image, bool show_center =false);
-    void findCenters(std::vector<int> markerIds, std::vector<std::vector<cv::Point2f>> markerCorners);
+    void detetcMarkers(cv::Mat input_image, bool verbose=false);
+    void drawDetectedMarkers(cv::Mat input_image, bool verbose, bool show_center =false);
+    void findCenters(std::vector<int> markerIds, std::vector<std::vector<cv::Point2f>> markerCorners, bool verbose);
 };
 
 #endif //TRACKING_H_
