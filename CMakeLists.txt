@@ -62,6 +62,7 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 ## find the required packages 
 find_package(VISP REQUIRED)
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 find_package(OpenCV REQUIRED)
 if( "${OPENCV_VERSION}" LESS "4" )
     message( WARNING "OpenCV update is recommended !" )
@@ -79,21 +80,25 @@ set(FLYCAPTURE_INCLUDE_DIRS "/usr/include/flycapture")
 set(CAMERACLASS_INCLUDE_DIRS "include/CameraClass")
 set(IMAGERACLASS_INCLUDE_DIRS "include/ImageClass")
 set(TRACKINGCLASS_INCLUDE_DIRS "include/TrackingClass")
+set(MEASURMENTCLASS_INCLUDE_DIRS "include/MeasurementClass")
 ###########################
 # New libraries go in here !
 ###########################
 
 message(STATUS "    include path: ${VISP_INCLUDE_DIRS}")
 message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
+message(STATUS "    include path: ${EIGEN3_INCLUDE_DIR}")
 message(STATUS "    ==========================")
 message(STATUS "    OpenCV version: ${OpenCV_VERSION}")
 message(STATUS "    VISP version: ${VISP_VERSION}")
+message(STATUS "    Eigen version: ${Eigen3_VERSION}")
 message(STATUS "    ==========================")
 
 # include the the packages
 include_directories(${VISP_INCLUDE_DIRS})
 include_directories(${FLYCAPTURE_INCLUDE_DIRS})
 include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${EIGEN3_INCLUDE_DIR})
 
 # OpenCV definition
 add_definitions(${OpenCV_DEFINITIONS})
@@ -102,6 +107,7 @@ add_definitions(${OpenCV_DEFINITIONS})
 add_subdirectory(${CAMERACLASS_INCLUDE_DIRS})
 add_subdirectory(${IMAGERACLASS_INCLUDE_DIRS})
 add_subdirectory(${TRACKINGCLASS_INCLUDE_DIRS})
+add_subdirectory(${MEASURMENTCLASS_INCLUDE_DIRS})
 ###########################
 # New includes go in here !
 ###########################

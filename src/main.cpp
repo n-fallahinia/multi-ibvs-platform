@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Image.h"
 #include "Tracking.h"
+#include "Measurement.h"
 
 using namespace std;
 using namespace std::chrono; 
@@ -37,6 +38,7 @@ int main()
     bool camera_start_flag = camera_m.initCamera();
     Image *image_m = new Image();
     Tracking *track_m = new Tracking(DIC_ID, READ_PARAMS_FLAG, OBJ_NUMBERS); 
+    Measurement *measurement_m = new Measurement();
     // auto start = high_resolution_clock::now(); 
     // ====================================================
 

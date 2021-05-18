@@ -7,4 +7,5 @@ target_link_libraries(ibvs
                         PRIVATE CameraClass
                         PRIVATE ImageClass
                         PRIVATE TrackingClass
+                        PRIVATE MeasurementClass
                         )
