@@ -6,12 +6,21 @@
 #include <fstream>
 #include "kalman_filter.h"
 
+struct MeasurementPackage{
+  std::vector<int> marker_ids;
+  Eigen::VectorXd measurement_coordinates;
+  int64_t timestamp_;
+};
+
+
 class Measurement {
  public:
   Measurement();
   virtual ~Measurement();
   void ProcessMeasurement();
-  KalmanFilter kf_;
+  KalmanFilter filter;
+  MeasurementPackage measurement;
+
 
  private:
   bool is_initialized_;

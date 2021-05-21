@@ -1,8 +1,9 @@
 #  =================================================================================
-#     Image Class for handeling the image captured by the PointGrey cameras 
-#     attached to each of the robots. Main objective of this class is to convert visp 
-#     image in to the MAt format supported by opencv. Ultimatly, aruco tracking or YOLO 
-#     will be used based of the converted images. 
+#     The multi-robot image based visual servoing platform has been made to detect and
+#     track the human multiple fingers when interacting with multiple robotic arms. 
+#     Ultimatly, the platform will be using for vision-based human robot interactions,
+#     where it can estimate the interaction forces on the fingertips as well as the 
+#     human body pose.   
 # 
 #     UNIVERSITY OF UTAH
 #     BIOROBOTICS LAB
