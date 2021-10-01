@@ -8,4 +8,5 @@ target_link_libraries(ibvs
                         PRIVATE ImageClass
                         PRIVATE TrackingClass
                         PRIVATE MeasurementClass
+                        PRIVATE RobotClass
                         )

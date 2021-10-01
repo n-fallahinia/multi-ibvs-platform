@@ -82,6 +82,7 @@ set(CAMERACLASS_INCLUDE_DIRS "include/CameraClass")
 set(IMAGERACLASS_INCLUDE_DIRS "include/ImageClass")
 set(TRACKINGCLASS_INCLUDE_DIRS "include/TrackingClass")
 set(MEASURMENTCLASS_INCLUDE_DIRS "include/MeasurementClass")
+set(ROBOTCLASS_INCLUDE_DIRS "include/RobotClass")
 ###########################
 # New libraries go in here !
 ###########################
@@ -109,6 +110,7 @@ add_subdirectory(${CAMERACLASS_INCLUDE_DIRS})
 add_subdirectory(${IMAGERACLASS_INCLUDE_DIRS})
 add_subdirectory(${TRACKINGCLASS_INCLUDE_DIRS})
 add_subdirectory(${MEASURMENTCLASS_INCLUDE_DIRS})
+add_subdirectory(${ROBOTCLASS_INCLUDE_DIRS})
 ###########################
 # New includes go in here !
 ###########################

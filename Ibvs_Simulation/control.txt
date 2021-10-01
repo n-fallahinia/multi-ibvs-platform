@@ -1,0 +1,37 @@
+# Start with control law:
+    vpServo task;
+    task.setServo(vpServo::EYEINHAND_CAMERA);
+    task.setInteractionMatrixType(vpServo::CURRENT);
+    vpAdaptiveGain lambda(4, 0.4, 30); 
+    task.setLambda(lambda);
+
+# set the camera intrinsic parameters for projection:
+    double px = 600; double py = 600;
+    double u0 = 320; double v0 = 240;
+    double kud = -0.19; double kdu = 0.20;
+
+    vpCameraParameters cam;
+    cam.initPersProjWithDistortion(px, py, u0, v0, kud, kdu);
+
+# Initial camera pose
+    vpHomogeneousMatrix cMo
+
+# actual and desired feature points
+    vpFeaturePoint p[4], pd[4];
+    feature point builder for actual feature
+    vpFeatureBuilder::create(p[i], cam, vpImagePoint ip); --> ip is the image point for each feature
+    task.addFeature(p[i], pd[i]);
+
+# Get camera extrinsics
+    vpPoseVector ePc;
+    // Set camera extrinsics default values
+    ePc[0] = 0.0337731; ePc[1] = -0.00535012; ePc[2] = -0.0523339;
+    ePc[3] = -0.247294; ePc[4] = -0.306729; ePc[5] = 1.53055;
+
+    // If provided, read camera extrinsics from --eMc <file>
+     if (!opt_eMc_filename.empty()) {
+       ePc.loadYAML(opt_eMc_filename, ePc);
+     }
+     else {
+       std::cout << "Warning, opt_eMc_filename is empty! Use hard coded values." << "\n";
+     }
