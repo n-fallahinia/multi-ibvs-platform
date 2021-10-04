@@ -25,7 +25,6 @@ struct JointAngles
 
 
 class Robot {
-    // JointAngles pm_recv_angles;
     bool m_connected;
     JointAngles p_current_angles;
 
@@ -38,14 +37,13 @@ class Robot {
 
 public : 
 
-
     Robot(const std::string &ip_addr, int port);
     
     void RobotConnect();
     void RobotDisconnect();
 
     void initRobot(JointAngles &);
-    void getAngles(JointAngles *);
+    void getAngles(JointAngles *) const;
     void setAngles(JointAngles *);
 
     ~Robot();

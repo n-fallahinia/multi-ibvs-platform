@@ -80,10 +80,19 @@ void Robot::initRobot(JointAngles &init_angles){
     std::cout<<" Done!"<<std::endl;
 };
 
-void Robot::getAngles(JointAngles *recv_angles) {
+void Robot::getAngles(JointAngles *recv_angles) const{
     socklen_t sock_addr_size_rec = sizeof(struct sockaddr_in);
-    int rec = recvfrom(m_socket, (char *) recv_angles, sizeof(JointAngles), 0, 
+    int rec = recvfrom(m_socket, reinterpret_cast<char*> (recv_angles), sizeof(JointAngles), 0, 
                     (struct sockaddr *) &m_cliaddr, &sock_addr_size_rec);
+    if (rec >0){
+
+        // std::cout << "q1= " << recv_angles->q1 << " ";
+        // std::cout << "q2= " << recv_angles->q2 << " ";
+        // std::cout << "q3= " << recv_angles->q3 << " ";
+        // std::cout << "q4= " << recv_angles->q4 << " ";
+        // std::cout << "q5= " << recv_angles->q5 << " ";
+        // std::cout << "q6= " << recv_angles->q6 << std::endl;
+    }
 }
 
 void Robot::setAngles(JointAngles* angles){
