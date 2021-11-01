@@ -19,7 +19,11 @@
 # actual and desired feature points
     vpFeaturePoint p[4], pd[4];
     feature point builder for actual feature
-    vpFeatureBuilder::create(p[i], cam, vpImagePoint ip); --> ip is the image point for each feature
+    std::vector<vpImagePoint> corners
+    for (size_t i = 0; i < corners.size(); i++) {
+        vpFeatureBuilder::create(p[i], cam, vpImagePoint corners[i]); --> corners[i] is the image point for each feature
+        p[i].set_Z(Constant Value);
+    }
     task.addFeature(p[i], pd[i]);
 
 # Get camera extrinsics

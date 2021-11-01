@@ -55,6 +55,8 @@ public:
     bool writeImage(vpImage<vpRGBa> &images_list, std::string &filename);
     void convertImage(std::vector<vpImage<vpRGBa>> &images_list);
     unsigned int getImageSize(vpImage<vpRGBa> &image);
+
+    static std::unique_ptr<Image> create();
 };
 
 #endif //IMAGE_H_

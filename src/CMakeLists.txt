@@ -9,4 +9,5 @@ target_link_libraries(ibvs
                         PRIVATE TrackingClass
                         PRIVATE MeasurementClass
                         PRIVATE RobotClass
+                        PRIVATE ServoClass
                         )

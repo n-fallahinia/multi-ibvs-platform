@@ -101,6 +101,12 @@ void Robot::setAngles(JointAngles* angles){
                     (const struct sockaddr *) &m_cliaddr, sock_addr_size_snd);      
 };
 
+void Robot::sendVelocity(CameraVelocity *vc){
+    socklen_t sock_addr_size_snd = sizeof(struct sockaddr_in);
+    int sent = sendto(m_socket, (const char *) vc, sizeof(CameraVelocity), 0, 
+                (const struct sockaddr *) &m_cliaddr, sock_addr_size_snd);   
+}
+
 
 bool Robot::errorConverge(JointAngles& rec_angles, JointAngles& des_angles){
     if (&rec_angles != nullptr){
@@ -124,5 +130,9 @@ bool Robot::errorConverge(JointAngles& rec_angles, JointAngles& des_angles){
         return false;
     }
 };
+
+std::unique_ptr<Robot> Robot::create(const std::string &ip_addr, int port){
+    return std::unique_ptr<Robot>(new Robot(ip_addr, port));
+}
 
 

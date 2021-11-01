@@ -44,11 +44,14 @@ public:
     Tracking();
     Tracking(int dictionary_id, bool readParameters_flag = false, int desired_point_numbers = 4);
     virtual ~Tracking();
+
     bool readDetectorParameters(std::string filename, cv::Ptr<cv::aruco::DetectorParameters> &detectorParameters);
     void setDetectorParameters(std::string filename);
     void detetcMarkers(cv::Mat input_image, bool verbose=false);
     void drawDetectedMarkers(cv::Mat input_image, bool verbose, bool show_center =false);
     void findCenters(std::vector<int> markerIds, std::vector<std::vector<cv::Point2f>> markerCorners, bool verbose);
+
+    static std::unique_ptr<Tracking> create(int dictionary_id);
 };
 
 #endif //TRACKING_H_

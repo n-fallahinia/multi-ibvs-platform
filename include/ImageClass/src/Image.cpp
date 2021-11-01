@@ -39,7 +39,7 @@ Image::Image(std::vector<vpImage<unsigned char>> &images_list)
 }
 
 // image destructor
-Image::~Image(){}
+Image::~Image(){std::cout<<"log::~Image()"<<std::endl;}
 
 void Image::convertImage(std::vector<vpImage<vpRGBa>> &images_list)
 {   
@@ -48,6 +48,11 @@ void Image::convertImage(std::vector<vpImage<vpRGBa>> &images_list)
         vpImageConvert::convert(images_list[cam_idx], cvimage);
         // cvimage_list.push_back(cvimage);
     }          
+}
+
+std::unique_ptr<Image> Image::create(){
+    
+    return std::unique_ptr<Image>(new Image());
 }
 
 bool writeImage(vpImage<vpRGBa> image, std::string &filename)
@@ -66,3 +71,4 @@ unsigned int getImageSize(vpImage<vpRGBa> &image)
     unsigned int _size = image.getHeight() * image.getWidth();
     return _size;
 }
+

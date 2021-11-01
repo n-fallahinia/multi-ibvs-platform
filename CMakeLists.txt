@@ -71,8 +71,6 @@ elseif("${OPENCV_VERSION}" LESS "3")
     message( FATAL_ERROR "OpenCV version is not supported" )
 endif()
 ###########################
-# New packages go in here !
-###########################
 
 ## set the flycapture directory 
 set(FLYCAPTURE_INCLUDE_DIRS "/usr/include/flycapture")
@@ -83,8 +81,7 @@ set(IMAGERACLASS_INCLUDE_DIRS "include/ImageClass")
 set(TRACKINGCLASS_INCLUDE_DIRS "include/TrackingClass")
 set(MEASURMENTCLASS_INCLUDE_DIRS "include/MeasurementClass")
 set(ROBOTCLASS_INCLUDE_DIRS "include/RobotClass")
-###########################
-# New libraries go in here !
+set(SERVOCLASS_INCLUDE_DIRS "include/ServoClass")
 ###########################
 
 message(STATUS "    include path: ${VISP_INCLUDE_DIRS}")
@@ -111,8 +108,7 @@ add_subdirectory(${IMAGERACLASS_INCLUDE_DIRS})
 add_subdirectory(${TRACKINGCLASS_INCLUDE_DIRS})
 add_subdirectory(${MEASURMENTCLASS_INCLUDE_DIRS})
 add_subdirectory(${ROBOTCLASS_INCLUDE_DIRS})
-###########################
-# New includes go in here !
+add_subdirectory(${SERVOCLASS_INCLUDE_DIRS})
 ###########################
 
 # include the the main directory

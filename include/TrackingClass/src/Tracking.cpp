@@ -38,7 +38,7 @@ Tracking::Tracking(int dictionary_id, bool readParameters_flag , int desired_poi
 }
 
 // Tracking destructor
-Tracking::~Tracking(){}
+Tracking::~Tracking(){std::cout<<"log::~Tracking()"<<std::endl;}
 
 // Reading the detector parameters from from the yml file in the include directory
 bool Tracking::readDetectorParameters(std::string filename, cv::Ptr<cv::aruco::DetectorParameters> &detectorParameters)
@@ -147,5 +147,12 @@ void Tracking::detetcMarkers(cv::Mat input_image, bool verbose)
         }
         findCenters(_markerIds,_markerCorners, verbose);
         drawDetectedMarkers(copy_image, verbose, true);
-    }   
+    } 
+    else{
+        std::cout << "\t" << "Not enough markers found : " <<_markerIds.size()<< std::endl;
+    }
+}
+
+std::unique_ptr<Tracking> Tracking::create(int dictionary_id){
+    return std::unique_ptr<Tracking>(new Tracking(dictionary_id));
 }
