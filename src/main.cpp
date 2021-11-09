@@ -3,6 +3,7 @@
 #include <memory>
 // #include <opencv2/opencv.hpp>
 // #include "TestClass.h"
+
 #include "Camera.h"
 #include "Image.h"
 #include "Tracking.h"
@@ -32,6 +33,7 @@ int main(int argc, char **argv)
   bool send_velocities;
   bool init_view_set = false;
   bool final_quit = false;
+  bool use_aruco = false;
 
   const std::string &cv_first_text = "Press space to continue";
   char userAnswer;
@@ -53,10 +55,10 @@ int main(int argc, char **argv)
   JointAngles init_angles {-20, -155, -217, -156, 50, 90,};
   JointAngles recv_angles;
   const int port = 18006;
-  std::string ip_addr = "192.168.2.2";
+  std::string ip_addr = "192.168.2.3";
 
   // camera setting stuff
-  CameraMatrix intrinsic{600, 800, 150, 150};
+  CameraMatrix intrinsic{3003.4345, 3016.6290, 377.9395, 543.5611, 0.04177, 0.04134};
   const double des_depth = 5; 
 
   // args parser  
@@ -101,56 +103,84 @@ int main(int argc, char **argv)
   // start the visual servoing controller
   std::unique_ptr<Servo> p_servo = Servo::create(intrinsic, OBJ_NUMBERS, opt_adaptive_gain);
 
+  // Init the cv tracker
+  cv::Ptr<cv::Tracker> tracker;
+  tracker = cv::TrackerMIL::create();
+
   // ====================================================
   // first loop to get the robot to the init position
   // also check for the initial view of the fingers
+
   std::cout << " ========= Initializing the Robot ========= "<< std::endl;
   try {
     // set the robot connection
-    p_robot->RobotConnect();
-    p_robot->initRobot(init_angles);
+    // p_robot->RobotConnect();
+    // p_robot->initRobot(init_angles);
 
     p_servo->loadCamera();
     p_servo->setDepth(des_depth);
 
-    cv::namedWindow("Initial View", cv::WINDOW_NORMAL );
+    cv::namedWindow("ROI selector", cv::WINDOW_NORMAL );
 
     while (!init_view_set){
 
       m_camera.grabImage();
       p_image->convertImage((*m_camera.image_RGB_grabbed));
       // track aruco from track class
-      p_tracker->detetcMarkers(p_image->cvimage, DEBUG_FLAG);
-      
-      cv::putText(p_tracker->copy_image, cv_first_text, cv::Point(0, p_tracker->copy_image.rows - 20), 
-            cv::FONT_HERSHEY_DUPLEX, 1.0, CV_RGB(225, 0, 0), 2);
+      if (use_aruco){
+        p_tracker->detetcMarkers(p_image->cvimage, DEBUG_FLAG);
+            
+        cv::putText(p_tracker->copy_image, cv_first_text, cv::Point(0, p_tracker->copy_image.rows - 20), 
+              cv::FONT_HERSHEY_DUPLEX, 1.0, CV_RGB(225, 0, 0), 2);
 
-      cv::imshow("Initial View", p_tracker->copy_image);
+        cv::imshow("ROI selector", p_tracker->copy_image);
 
-      char key = (char)cv::waitKey(WAIT_TIME);
-      if (key == 32){
-        init_view_set = true;
+        char key = (char)cv::waitKey(WAIT_TIME);
+        if (key == 32){
+          init_view_set = true;
 
-        // count the number of features
-        int c_size = p_tracker->corner_centers.size();
-        std::vector<vpImagePoint> des_corners(c_size);
+          // count the number of features
+          int c_size = p_tracker->corner_centers.size();
+          std::vector<vpImagePoint> des_corners(c_size);
 
-        // build the desired corner vector
-        for (size_t i = 0; i < c_size; i++){
-          des_corners[i] = vpImagePoint(p_tracker->corner_centers[i].x,
-                               p_tracker->corner_centers[i].y);
+          // build the desired corner vector
+          for (size_t i = 0; i < c_size; i++){
+            des_corners[i] = vpImagePoint(p_tracker->corner_centers[i].x,
+                                p_tracker->corner_centers[i].y);
+          }
+          // setup the desired view
+          p_servo->setDesiredView(des_corners);
+          std::cout << " Desired view saved "<< std::endl;
         }
-        // setup the desired view
-        p_servo->setDesiredView(des_corners);
-        std::cout << " Desired view saved "<< std::endl;
-      }
-      if (key == 27) {
-        throw std::invalid_argument( "no feature selected" );
-        break;
-      }
+        if (key == 27) {
+          throw std::invalid_argument( "no feature selected" );
+          break;
+        }
+    }//end of use_aruco
+
+    else{
+      cv::Rect2d roi = cv::selectROI(p_image->cvimage);
+      // top_ left -> bottom_left
+      cv::Point2d p1 (roi.x - roi.width/2, roi.y - roi.height/2);
+      cv::Point2d p2 (roi.x + roi.width/2, roi.y - roi.height/2);
+      cv::Point2d p3 (roi.x + roi.width/2, roi.y + roi.height/2);
+      cv::Point2d p4 (roi.x - roi.width/2, roi.y + roi.height/2);
+
+      std::vector<vpImagePoint> des_corners(OBJ_NUMBERS);
+      // build the desired corner vector
+      des_corners[0] = vpImagePoint(p1.x, p1.y);
+      des_corners[1] = vpImagePoint(p2.x, p2.y);
+      des_corners[2] = vpImagePoint(p3.x, p3.y);
+      des_corners[3] = vpImagePoint(p4.x, p4.y);
+
+      // init the tracker
+      tracker->init(p_image->cvimage, roi);
+
+      init_view_set = true;
+    }
 
     }// end of the init while loop
-    cv::destroyWindow("Initial View"); 
+      cv::destroyAllWindows();
   }
   catch(const vpException &e) {
     std::cout << "ViSP exception: " << e.what() << std::endl;
@@ -188,8 +218,15 @@ int main(int argc, char **argv)
 
     m_camera.grabImage();
     p_image->convertImage((*m_camera.image_RGB_grabbed));
-    // track aruco from track class
-    p_tracker->detetcMarkers(p_image->cvimage, false);
+
+    if (use_aruco){
+      // track aruco from track class
+      p_tracker->detetcMarkers(p_image->cvimage, false);
+    }
+    else{
+      // update the corner centers from MIL
+      // p_tracker->corner_centers
+    }
 
     if (first_time) {
       traj_corners.resize(p_tracker->corner_centers.size());
@@ -261,6 +298,6 @@ int main(int argc, char **argv)
     // }
     // ====================================================
 
-      // servo.setDesiredView(corners);
+    //   servo.setDesiredView(corners);
     return 0;
 }

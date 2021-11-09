@@ -5,6 +5,8 @@ Servo::Servo(const CameraMatrix &cam_params, int num_points, bool opt_adaptive):
     m_cam_py(cam_params.py),
     m_cam_u0(cam_params.u0),
     m_cam_v0(cam_params.v0),
+    m_cam_kud(cam_params.kud),
+    m_cam_kdu(cam_params.kdu),
     m_num_points(num_points)
 {   
     p.resize(num_points);
@@ -18,7 +20,7 @@ Servo::Servo(const CameraMatrix &cam_params, int num_points, bool opt_adaptive):
         task.setLambda(lambda);
     }
     else{
-       task.setLambda(0.5);
+       task.setLambda(0.0009);
     }
 
     for (size_t i = 0; i < m_num_points; i++)
@@ -44,7 +46,7 @@ Servo::~Servo(){
 }
 
 void Servo::loadCamera(){    
-    cam.initPersProjWithoutDistortion(m_cam_px, m_cam_py, m_cam_u0, m_cam_v0); 
+    cam.initPersProjWithDistortion(m_cam_px, m_cam_py, m_cam_u0, m_cam_v0, m_cam_kud, m_cam_kdu); 
     std::cout<<"camera intrinsic loaded"<<std::endl;
 };
 

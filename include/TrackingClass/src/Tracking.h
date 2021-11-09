@@ -26,6 +26,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/aruco.hpp>
+#include <opencv2/tracking/tracking.hpp>
 
 class Tracking
 {

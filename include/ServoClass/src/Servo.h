@@ -37,7 +37,7 @@
 
 struct CameraMatrix
 {
-    double px, py, u0, v0;
+    double px, py, u0, v0, kud, kdu;
 };
 
 struct CameraVelocity
@@ -49,7 +49,7 @@ struct CameraVelocity
 class Servo
 {
 private:
-    double m_cam_px, m_cam_py, m_cam_u0, m_cam_v0;
+    double m_cam_px, m_cam_py, m_cam_u0, m_cam_v0, m_cam_kud, m_cam_kdu;
     double m_des_depth;
     int m_num_points;
     double m_error;

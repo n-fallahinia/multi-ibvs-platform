@@ -10,5 +10,9 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
 find_package(VISP REQUIRED)
 find_package(OpenCV REQUIRED)
 
+set(FLYCAPTURE_INCLUDE_DIRS "/usr/include/flycapture")
+
 add_executable(image-grabber image-grabber.cpp)
-target_link_libraries(image-grabber ${OpenCV_LIBS} )
+target_link_libraries(image-grabber ${OpenCV_LIBS} 
+                                    ${VISP_LIBRARIES} 
+                                    ${FLYCAPTURE_INCLUDE_DIRS})
